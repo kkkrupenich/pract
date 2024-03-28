@@ -9,15 +9,15 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="\"Role\"")
+@Table(name = "\"Role\"")
 @Data
 public class Role {
-    
+
     @Id
-    @Column(name="\"ID\"")
+    @Column(name = "\"ID\"")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="\"RoleName\"")
+    @Column(name = "\"RoleName\"")
     private String roleName;
 }

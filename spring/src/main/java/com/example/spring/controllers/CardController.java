@@ -11,27 +11,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.spring.entities.Passport;
-import com.example.spring.services.PassportService;
+import com.example.spring.entities.Card;
+import com.example.spring.services.CardService;
 
 @RestController
-public class PassportController {
+public class CardController {
+
     @Autowired
-    PassportService passportService;
+    CardService cardService;
 
-    @GetMapping("passports")
-    public List<Passport> getPassports() {
-        return passportService.getPassports();
+    @GetMapping("cards")
+    public List<Card> getRoles() {
+        return cardService.getRoles();
     }
 
-    @PostMapping("addpassport")
-    public Passport addRole(@RequestBody Passport passport) {
-        return passportService.savePassport(passport);
+    @PostMapping("addcard")
+    public Card addRole(@RequestBody Card role) {
+        return cardService.saveRole(role);
     }
 
-    @DeleteMapping("deletepassport/{id}")
+    @DeleteMapping("deletecard/{id}")
     public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
-        passportService.deletePasspors(id);
+        cardService.deleteRole(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }
 }

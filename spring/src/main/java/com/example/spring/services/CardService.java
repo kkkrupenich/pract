@@ -6,29 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.spring.entities.Role;
-import com.example.spring.repositories.RoleRepository;;
+import com.example.spring.entities.Card;
+import com.example.spring.repositories.CardRepository;
 
 @Service
-public class RoleService {
+public class CardService {
 
     @Autowired
-    RoleRepository roleRepository;
+    CardRepository cardRepository;
 
-    public RoleService() {
+    public CardService() {
 
     }
 
-    public List<Role> getRoles() {
-        return roleRepository.findAll();
+    public List<Card> getRoles() {
+        return cardRepository.findAll();
     }
 
-    public Role saveRole(Role role) {
-        return roleRepository.save(role);
+    public Card saveRole(Card role) {
+        return cardRepository.save(role);
     }
 
     public ResponseEntity<String> deleteRole(Long id) {
-        roleRepository.deleteById(id);
+        cardRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }
 }

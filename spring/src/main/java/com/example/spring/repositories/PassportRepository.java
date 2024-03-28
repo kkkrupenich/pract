@@ -1,5 +1,11 @@
 package com.example.spring.repositories;
 
-public class PassportRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.spring.entities.Passport;
+
+@Repository
+public interface PassportRepository extends JpaRepository<Passport, Long> {
 
 }

@@ -16,7 +16,10 @@ import com.example.spring.services.RoleService;
 
 @RestController
 public class RoleController {
-    @Autowired RoleService roleService;
+
+	@Autowired
+	RoleService roleService;
+
 	@GetMapping("roles")
 	public List<Role> getRoles() {
 		return roleService.getRoles();
@@ -26,9 +29,9 @@ public class RoleController {
 	public Role addRole(@RequestBody Role role) {
 		return roleService.saveRole(role);
 	}
-	
+
 	@DeleteMapping("deleterole/{id}")
-	 public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
+	public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
 		roleService.deleteRole(id);
 		return ResponseEntity.ok("Todo deleted successfully!.");
 	}
