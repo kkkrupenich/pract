@@ -5,14 +5,14 @@ import java.sql.*;
 public class Review {
      
     public static void selectReview(Connection connection) throws Exception {
-        Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"Review\"");
 
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM \"Review\"");
-
-        while (resultSet.next()) {
-            int columnId = resultSet.getInt("ID");
-            String columnValue = resultSet.getString("Message");
-            System.out.println(columnId + " " + columnValue);
+            while (resultSet.next()) {
+                int columnId = resultSet.getInt("ID");
+                String columnValue = resultSet.getString("Message");
+                System.out.println(columnId + " " + columnValue);
+            }
         }
     }
 
@@ -20,35 +20,35 @@ public class Review {
             Date date) throws Exception {
 
         String sql = "INSERT INTO \"Review\"(\"UserID\", \"GameID\", \"Message\", \"Rating\", \"Date\") VALUES (?, ?, ?, ?, ?);";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, gameId);
+            preparedStatement.setString(3, message);
+            preparedStatement.setString(4, rating);
+            preparedStatement.setDate(5, date);
 
-        preparedStatement.setInt(1, userId);
-        preparedStatement.setInt(2, gameId);
-        preparedStatement.setString(3, message);
-        preparedStatement.setString(4, rating);
-        preparedStatement.setDate(5, date);
-
-        preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+        }
     }
 
     public static void deleteReview(Connection connection, int id) throws Exception {
 
         String sql = "DELETE FROM \"Review\" WHERE \"ID\" = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
 
-        preparedStatement.setInt(1, id);
-
-        preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+        }
     }
 
     public static void updateReview(Connection connection, String message, int id) throws Exception {
 
         String sql = "UPDATE \"User\" SET \"Message\" = ? WHERE \"ID\" = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, message);
+            preparedStatement.setInt(2, id);
 
-        preparedStatement.setString(1, message);
-        preparedStatement.setInt(2, id);
-
-        preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+        }
     }
 }
