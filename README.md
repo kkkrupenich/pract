@@ -11,4 +11,10 @@ https://sonarcloud.io/project/overview?id=kkkrupenich_pract
 факт: 4 ч
 ## 3. Backend на SpringBoot + Hibernate:
 план: 18 ч
-факт: выполняется
+факт: 4.5 ч
+## 4. Angular - Frontend
+план: -
+факт: -
+## 5. React - Frontend
+план: -
+факт: -
