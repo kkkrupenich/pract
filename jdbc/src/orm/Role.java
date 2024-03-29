@@ -14,12 +14,11 @@ public class Role {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"RoleName\" FROM \"Role\"");
 
             while (resultSet.next()) {
-                int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("RoleName");
-                logger.info(columnId + " " + columnValue);
+                logger.info(columnValue);
             }
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -30,7 +29,7 @@ public class Role {
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -42,7 +41,7 @@ public class Role {
             preparedStatement.setString(2, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -54,7 +53,7 @@ public class Role {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -67,7 +66,7 @@ public class Role {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 }

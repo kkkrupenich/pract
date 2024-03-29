@@ -15,12 +15,11 @@ public class User {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"FIO\" FROM \"User\"");
 
             while (resultSet.next()) {
-                int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("FIO");
-                logger.info(columnId + " " + columnValue);
+                logger.info(columnValue);
             }
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -38,7 +37,7 @@ public class User {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -50,7 +49,7 @@ public class User {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -63,7 +62,7 @@ public class User {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 }

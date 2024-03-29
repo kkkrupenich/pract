@@ -15,12 +15,11 @@ public class Chance {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"LoseChance\" FROM \"Chance\"");
 
             while (resultSet.next()) {
-                int columnId = resultSet.getInt("ID");
                 double columnValue = resultSet.getDouble("LoseChance");
-                logger.info(columnId + " " + columnValue);
+                logger.info(String.valueOf(columnValue));
             }
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -35,7 +34,7 @@ public class Chance {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -47,7 +46,7 @@ public class Chance {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -62,7 +61,7 @@ public class Chance {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 }

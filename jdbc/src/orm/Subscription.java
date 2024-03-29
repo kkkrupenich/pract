@@ -15,12 +15,11 @@ public class Subscription {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Status\" FROM \"Subscription\"");
 
             while (resultSet.next()) {
-                int columnId = resultSet.getInt("ID");
                 Boolean columnValue = resultSet.getBoolean("Status");
-                logger.info(columnId + " " + columnValue);
+                logger.info(columnValue.toString());
             }
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -33,7 +32,7 @@ public class Subscription {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -45,7 +44,7 @@ public class Subscription {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -58,7 +57,7 @@ public class Subscription {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 }
