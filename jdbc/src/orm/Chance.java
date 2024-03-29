@@ -10,7 +10,7 @@ public class Chance {
         // Prevent instantiation
     }
 
-    public static void selectChance(Connection connection) throws Exception {
+    public static void selectChance(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"LoseChance\" FROM \"Chance\"");
 
@@ -24,7 +24,7 @@ public class Chance {
     }
 
     public static void insertChance(Connection connection, double loseChance, double returnChance, double winChance)
-            throws Exception {
+            throws SQLException {
 
         String sql = "INSERT INTO \"Chance\"(\"LoseChance\",\"ReturnChance\", \"WinChance\") VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -38,7 +38,7 @@ public class Chance {
         }
     }
 
-    public static void deleteChance(Connection connection, int id) throws Exception {
+    public static void deleteChance(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Chance\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -51,7 +51,7 @@ public class Chance {
     }
 
     public static void updateChance(Connection connection, double loseChance, double returnChance, double winChance,
-            int id) throws Exception {
+            int id) throws SQLException {
 
         String sql = "UPDATE \"Subscription\" SET \"LoseChance\" = ?, \"ReturnChance\" = ?, \"WinChance\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
