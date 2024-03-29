@@ -10,7 +10,7 @@ public class Subscription {
         // Prevent instantiation
     }
     
-    public static void selectSubscription(Connection connection) throws Exception {
+    public static void selectSubscription(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Status\" FROM \"Subscription\"");
 
@@ -23,7 +23,7 @@ public class Subscription {
         }
     }
 
-    public static void insertSubscription(Connection connection, Boolean status, Date expirationDate) throws Exception {
+    public static void insertSubscription(Connection connection, Boolean status, Date expirationDate) throws SQLException {
 
         String sql = "INSERT INTO \"Subscription\"(\"Status\",\"ExpirationDate\") VALUES (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -36,7 +36,7 @@ public class Subscription {
         }
     }
 
-    public static void deleteSubscription(Connection connection, int id) throws Exception {
+    public static void deleteSubscription(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Subscription\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -48,7 +48,7 @@ public class Subscription {
         }
     }
 
-    public static void updateSubscriptionStatus(Connection connection, Boolean status, int id) throws Exception {
+    public static void updateSubscriptionStatus(Connection connection, Boolean status, int id) throws SQLException {
 
         String sql = "UPDATE \"Subscription\" SET \"Status\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

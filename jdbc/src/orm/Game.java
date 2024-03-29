@@ -10,7 +10,7 @@ public class Game {
         // Prevent instantiation
     }
 
-    public static void selectGame(Connection connection) throws Exception {
+    public static void selectGame(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Name\" FROM \"Game\"");
 
@@ -24,7 +24,7 @@ public class Game {
     }
 
     public static void insertGame(Connection connection, String name, Boolean status, int id, double minBet,
-            double maxBet) throws Exception {
+            double maxBet) throws SQLException {
 
         String sql = "INSERT INTO \"Game\"(\"Name\", \"PremiumStatus\", \"ChanceID\", \"MinimalBet\", \"MaximumBet\") VALUES (?, ?, ?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -40,7 +40,7 @@ public class Game {
         }
     }
 
-    public static void deleteGame(Connection connection, int id) throws Exception {
+    public static void deleteGame(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Game\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -52,7 +52,7 @@ public class Game {
         }
     }
 
-    public static void updateGameStatus(Connection connection, Boolean status, int id) throws Exception {
+    public static void updateGameStatus(Connection connection, Boolean status, int id) throws SQLException {
 
         String sql = "UPDATE \"Game\" SET \"PremiumStatus\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

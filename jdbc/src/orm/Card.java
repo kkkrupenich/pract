@@ -10,20 +10,20 @@ public class Card {
         // Prevent instantiation
     }
 
-    public static void selectCard(Connection connection) throws Exception {
+    public static void selectCard(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(
                     "SELECT \"ID\", \"Number\",\"ExpirationDate\", \"HolderName\", \"CVV\" FROM \"Card\"");
 
             while (resultSet.next()) {
                 String columnValue = resultSet.getString("Number");
-                logger.info(columnValue.toString());
+                logger.info(columnValue);
             }
         }
     }
 
     public static void insertCard(Connection connection, String number, Date expirationDate,
-            String holdersName, String cvv, int userId) throws Exception {
+            String holdersName, String cvv, int userId) throws SQLException {
 
         String sql = "INSERT INTO \"Card\"(\"Number\", \"ExpirationDate\", " +
                 "\"HoldersName\", \"CVV\") VALUES (?, ?, ?, ?)";
@@ -57,7 +57,7 @@ public class Card {
         }
     }
 
-    public static void deleteCard(Connection connection, int id) throws Exception {
+    public static void deleteCard(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Card\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -69,7 +69,7 @@ public class Card {
         }
     }
 
-    public static void updateCard(Connection connection, String number, int id) throws Exception {
+    public static void updateCard(Connection connection, String number, int id) throws SQLException {
 
         String sql = "UPDATE \"Card\" SET \"Number\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

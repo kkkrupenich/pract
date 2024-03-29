@@ -9,7 +9,7 @@ public class Passport {
         // Prevent instantiation
     }
 
-    public static void selectPassport(Connection connection) throws Exception {
+    public static void selectPassport(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"SerialNumber\" FROM \"Passport\"");
 
@@ -24,7 +24,7 @@ public class Passport {
 
     public static void insertPassport(Connection connection, String serialNumber,
             String identificationNumber, String registration, Date issueDate,
-            Date expirationDate) throws Exception {
+            Date expirationDate) throws SQLException {
 
         String sql = "INSERT INTO \"Passport\"(\"SerialNumber\", \"IdentificationNumber\", " +
                 "\"Registration\", \"IssueDate\", \"ExpirationDate\") VALUES (?, ?, ?, ?, ?)";
@@ -41,7 +41,7 @@ public class Passport {
         }
     }
 
-    public static void deletePassport(Connection connection, int id) throws Exception {
+    public static void deletePassport(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Passport\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -53,7 +53,7 @@ public class Passport {
         }
     }
 
-    public static void updatePassportSerialNumber(Connection connection, String serialNumber, int id) throws Exception {
+    public static void updatePassportSerialNumber(Connection connection, String serialNumber, int id) throws SQLException {
 
         String sql = "UPDATE \"Passport\" SET \"SerialNumber\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

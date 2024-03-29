@@ -10,7 +10,7 @@ public class User {
         // Prevent instantiation
     }
 
-    public static void selectUsers(Connection connection) throws Exception {
+    public static void selectUsers(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"FIO\" FROM \"User\"");
 
@@ -24,7 +24,7 @@ public class User {
     }
 
     public static void insertUser(Connection connection, String email, String password, String fio, int passId,
-            int roleId) throws Exception {
+            int roleId) throws SQLException {
 
         String sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\",) VALUES (?, ?, ?, ?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -41,7 +41,7 @@ public class User {
         }
     }
 
-    public static void deleteUser(Connection connection, int id) throws Exception {
+    public static void deleteUser(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"User\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -53,7 +53,7 @@ public class User {
         }
     }
 
-    public static void updateUser(Connection connection, String fio, int id) throws Exception {
+    public static void updateUser(Connection connection, String fio, int id) throws SQLException {
 
         String sql = "UPDATE \"User\" SET \"FIO\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

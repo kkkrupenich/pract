@@ -10,7 +10,7 @@ public class Review {
         // Prevent instantiation
     }
 
-    public static void selectReview(Connection connection) throws Exception {
+    public static void selectReview(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Message\" FROM \"Review\"");
 
@@ -24,7 +24,7 @@ public class Review {
     }
 
     public static void insertReview(Connection connection, int userId, int gameId, String message, String rating,
-            Date date) throws Exception {
+            Date date) throws SQLException {
 
         String sql = "INSERT INTO \"Review\"(\"UserID\", \"GameID\", \"Message\", \"Rating\", \"Date\") VALUES (?, ?, ?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -40,7 +40,7 @@ public class Review {
         }
     }
 
-    public static void deleteReview(Connection connection, int id) throws Exception {
+    public static void deleteReview(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Review\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -52,7 +52,7 @@ public class Review {
         }
     }
 
-    public static void updateReview(Connection connection, String message, int id) throws Exception {
+    public static void updateReview(Connection connection, String message, int id) throws SQLException {
 
         String sql = "UPDATE \"User\" SET \"Message\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
