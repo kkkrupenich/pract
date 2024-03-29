@@ -35,6 +35,8 @@ public class App {
         logger.info("Passports:");
         Passport.selectPassport(connection);
 
+        Subscription.selectSubscription(connection);
+
         connection.close();
     }
 }
