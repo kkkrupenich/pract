@@ -1,18 +1,26 @@
 package orm;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class Chance {
-    
+    static Logger logger = Logger.getLogger(Chance.class.getName());
+
+    private Chance() {
+        // Prevent instantiation
+    }
+
     public static void selectChance(Connection connection) throws Exception {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"Chance\"");
+            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"LoseChance\" FROM \"Chance\"");
 
             while (resultSet.next()) {
                 int columnId = resultSet.getInt("ID");
                 double columnValue = resultSet.getDouble("LoseChance");
-                System.out.println(columnId + " " + columnValue);
+                logger.info(columnId + " " + columnValue);
             }
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -26,6 +34,8 @@ public class Chance {
             preparedStatement.setDouble(3, winChance);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -36,6 +46,8 @@ public class Chance {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -49,6 +61,8 @@ public class Chance {
             preparedStatement.setDouble(3, winChance);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 }

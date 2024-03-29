@@ -1,18 +1,26 @@
 package orm;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class Game {
-    
+    static Logger logger = Logger.getLogger(Game.class.getName());
+
+    private Game() {
+        // Prevent instantiation
+    }
+
     public static void selectGame(Connection connection) throws Exception {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"Game\"");
+            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Name\" FROM \"Game\"");
 
             while (resultSet.next()) {
                 int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("Name");
-                System.out.println(columnId + " " + columnValue);
+                logger.info(columnId + " " + columnValue);
             }
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -28,6 +36,8 @@ public class Game {
             preparedStatement.setDouble(5, maxBet);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -38,6 +48,8 @@ public class Game {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -49,6 +61,8 @@ public class Game {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 }
