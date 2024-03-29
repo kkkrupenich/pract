@@ -18,3 +18,7 @@ https://sonarcloud.io/project/overview?id=kkkrupenich_pract
 ## 5. React - Frontend
 план: -
 факт: -
+
+# Cхема бд
+
+![схема бд](https://github.com/kkkrupenich/pract/blob/main/erd.png)
