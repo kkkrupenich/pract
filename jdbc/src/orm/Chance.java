@@ -15,8 +15,8 @@ public class Chance {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"LoseChance\" FROM \"Chance\"");
 
             while (resultSet.next()) {
-                double columnValue = resultSet.getDouble("LoseChance");
-                logger.info(String.format("$f", columnValue));
+                String columnValue = resultSet.getString("LoseChance");
+                logger.info(columnValue);
             }
         } catch (SQLException e) {
             logger.info(e.toString());

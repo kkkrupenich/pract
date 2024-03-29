@@ -15,8 +15,8 @@ public class Subscription {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Status\" FROM \"Subscription\"");
 
             while (resultSet.next()) {
-                Boolean columnValue = resultSet.getBoolean("Status");
-                logger.info(String.format("$b", columnValue));
+                String columnValue = resultSet.getString("Status");
+                logger.info(columnValue);
             }
         } catch (SQLException e) {
             logger.info(e.toString());
