@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.logging.Logger;
 
 public class Passport {
-    static Logger logger = Logger.getLogger(Card.class.getName());
+    static Logger logger = Logger.getLogger(Passport.class.getName());
 
     private Passport() {
         // Prevent instantiation

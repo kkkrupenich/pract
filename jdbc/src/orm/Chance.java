@@ -16,7 +16,7 @@ public class Chance {
 
             while (resultSet.next()) {
                 double columnValue = resultSet.getDouble("LoseChance");
-                logger.info(String.valueOf(columnValue));
+                logger.info(String.format("$f", columnValue));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
@@ -50,14 +50,15 @@ public class Chance {
         }
     }
 
-    public static void updateChance(Connection connection, double loseChance, double returnChance, double winChance,
-            int id) throws SQLException {
+    public static void updateChance(Connection connection, double loseChance, double returnChance, 
+                                    double winChance, int id) throws SQLException {
 
         String sql = "UPDATE \"Subscription\" SET \"LoseChance\" = ?, \"ReturnChance\" = ?, \"WinChance\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setDouble(1, loseChance);
             preparedStatement.setDouble(2, returnChance);
             preparedStatement.setDouble(3, winChance);
+            preparedStatement.setInt(4, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
