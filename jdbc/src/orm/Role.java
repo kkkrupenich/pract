@@ -1,17 +1,25 @@
 package orm;
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class Role {
-    
+    static Logger logger = Logger.getLogger(Review.class.getName());
+
+    private Role() {
+        // Prevent instantiation
+    }
+
     public static void selectRoles(Connection connection) throws Exception {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"Role\"");
+            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"RoleName\" FROM \"Role\"");
 
             while (resultSet.next()) {
                 int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("RoleName");
-                System.out.println(columnId + " " + columnValue);
+                logger.info(columnId + " " + columnValue);
             }
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -21,6 +29,8 @@ public class Role {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -31,6 +41,8 @@ public class Role {
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, name);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -41,6 +53,8 @@ public class Role {
             preparedStatement.setString(1, name);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -52,6 +66,8 @@ public class Role {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 }

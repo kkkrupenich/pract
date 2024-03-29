@@ -1,16 +1,24 @@
 package orm;
+
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class Card {
-    
+    static Logger logger = Logger.getLogger(Card.class.getName());
+
+    private Card() {
+        // Prevent instantiation
+    }
+
     public static void selectCard(Connection connection) throws Exception {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"Card\"");
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT \"ID\", \"Number\",\"ExpirationDate\", \"HolderName\", \"CVV\" FROM \"Card\"");
 
             while (resultSet.next()) {
                 int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("Number");
-                System.out.println(columnId + " " + columnValue);
+                logger.info(columnId + " " + columnValue);
             }
         }
     }
@@ -19,7 +27,7 @@ public class Card {
             String holdersName, String cvv, int userId) throws Exception {
 
         String sql = "INSERT INTO \"Card\"(\"Number\", \"ExpirationDate\", " +
-                    "\"HoldersName\", \"CVV\") VALUES (?, ?, ?, ?)";
+                "\"HoldersName\", \"CVV\") VALUES (?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, number);
             preparedStatement.setDate(2, expirationDate);
@@ -27,6 +35,8 @@ public class Card {
             preparedStatement.setString(4, cvv);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
 
         int id = 0;
@@ -43,7 +53,9 @@ public class Card {
             preparedStatement2.setInt(1, id);
             preparedStatement2.setInt(2, userId);
             preparedStatement2.executeUpdate();
-        } 
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
+        }
     }
 
     public static void deleteCard(Connection connection, int id) throws Exception {
@@ -53,6 +65,8 @@ public class Card {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -64,6 +78,8 @@ public class Card {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 }

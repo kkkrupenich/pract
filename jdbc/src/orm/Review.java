@@ -1,18 +1,26 @@
 package orm;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class Review {
-     
+    static Logger logger = Logger.getLogger(Review.class.getName());
+
+    private Review() {
+        // Prevent instantiation
+    }
+
     public static void selectReview(Connection connection) throws Exception {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"Review\"");
+            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Message\" FROM \"Review\"");
 
             while (resultSet.next()) {
                 int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("Message");
-                System.out.println(columnId + " " + columnValue);
+                logger.info(columnId + " " + columnValue);
             }
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -28,6 +36,8 @@ public class Review {
             preparedStatement.setDate(5, date);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -38,6 +48,8 @@ public class Review {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -49,6 +61,8 @@ public class Review {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 }

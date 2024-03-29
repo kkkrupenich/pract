@@ -1,18 +1,26 @@
 package orm;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class Subscription {
+    static Logger logger = Logger.getLogger(Subscription.class.getName());
 
+    private Subscription() {
+        // Prevent instantiation
+    }
+    
     public static void selectSubscription(Connection connection) throws Exception {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"Subscription\"");
+            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Status\" FROM \"Subscription\"");
 
             while (resultSet.next()) {
                 int columnId = resultSet.getInt("ID");
                 Boolean columnValue = resultSet.getBoolean("Status");
-                System.out.println(columnId + " " + columnValue);
+                logger.info(columnId + " " + columnValue);
             }
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -24,6 +32,8 @@ public class Subscription {
             preparedStatement.setDate(2, expirationDate);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -34,6 +44,8 @@ public class Subscription {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -45,6 +57,8 @@ public class Subscription {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 }

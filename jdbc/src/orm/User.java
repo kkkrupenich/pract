@@ -1,34 +1,44 @@
 package orm;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class User {
-    
+    static Logger logger = Logger.getLogger(User.class.getName());
+
+    private User() {
+        // Prevent instantiation
+    }
+
     public static void selectUsers(Connection connection) throws Exception {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"User\"");
+            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"FIO\" FROM \"User\"");
 
             while (resultSet.next()) {
                 int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("FIO");
-                System.out.println(columnId + " " + columnValue);
+                logger.info(columnId + " " + columnValue);
             }
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
-    public static void insertUser(Connection connection, String email, String password, String FIO, int passId,
+    public static void insertUser(Connection connection, String email, String password, String fio, int passId,
             int roleId) throws Exception {
 
         String sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\",) VALUES (?, ?, ?, ?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
-            preparedStatement.setString(3, FIO);
+            preparedStatement.setString(3, fio);
             preparedStatement.setInt(4, passId);
             preparedStatement.setInt(5, roleId);
             preparedStatement.setDouble(6, 0.0);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
@@ -39,17 +49,21 @@ public class User {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 
-    public static void updateUser(Connection connection, String FIO, int id) throws Exception {
+    public static void updateUser(Connection connection, String fio, int id) throws Exception {
 
         String sql = "UPDATE \"User\" SET \"FIO\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, FIO);
+            preparedStatement.setString(1, fio);
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException(e.getSQLState());
         }
     }
 }
