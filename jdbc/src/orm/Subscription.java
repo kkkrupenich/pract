@@ -16,7 +16,7 @@ public class Subscription {
 
             while (resultSet.next()) {
                 Boolean columnValue = resultSet.getBoolean("Status");
-                logger.info(columnValue.toString());
+                logger.info(String.format("$b", columnValue));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
