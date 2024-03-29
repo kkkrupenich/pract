@@ -10,6 +10,7 @@ import orm.*;
 
 public class App {
     private static final String PROPERTIES_FILE = "db.properties";
+    static Logger logger = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) throws Exception {
         Properties properties = new Properties();
@@ -17,7 +18,7 @@ public class App {
         try (FileInputStream fis = new FileInputStream(PROPERTIES_FILE)) {
             properties.load(fis);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e.toString());
         }
 
         String jdbcUrl = properties.getProperty("jdbc.url");

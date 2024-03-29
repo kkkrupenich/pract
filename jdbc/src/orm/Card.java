@@ -16,9 +16,8 @@ public class Card {
                     "SELECT \"ID\", \"Number\",\"ExpirationDate\", \"HolderName\", \"CVV\" FROM \"Card\"");
 
             while (resultSet.next()) {
-                int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("Number");
-                logger.info(columnId + " " + columnValue);
+                logger.info(columnValue.toString());
             }
         }
     }
@@ -36,7 +35,7 @@ public class Card {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
 
         int id = 0;
@@ -54,7 +53,7 @@ public class Card {
             preparedStatement2.setInt(2, userId);
             preparedStatement2.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -66,7 +65,7 @@ public class Card {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -79,7 +78,7 @@ public class Card {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 }

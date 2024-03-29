@@ -15,12 +15,11 @@ public class Game {
             ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Name\" FROM \"Game\"");
 
             while (resultSet.next()) {
-                int columnId = resultSet.getInt("ID");
                 String columnValue = resultSet.getString("Name");
-                logger.info(columnId + " " + columnValue);
+                logger.info(columnValue);
             }
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -37,7 +36,7 @@ public class Game {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -49,7 +48,7 @@ public class Game {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 
@@ -62,7 +61,7 @@ public class Game {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException(e.getSQLState());
+            logger.info(e.toString());
         }
     }
 }
