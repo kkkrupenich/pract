@@ -16,7 +16,7 @@ public class ReviewService {
     ReviewRepository reviewRepository;
 
     public ReviewService() {
-
+        // Constructor is empty because any specific initialization logic is not needed
     }
 
     public List<Review> getRoles() {

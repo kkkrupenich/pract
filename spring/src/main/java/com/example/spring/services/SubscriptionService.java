@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.spring.entities.Subscription;
-import com.example.spring.repositories.SubscriptionRepository;;
+import com.example.spring.repositories.SubscriptionRepository;
 
 @Service
 public class SubscriptionService {
@@ -16,7 +16,7 @@ public class SubscriptionService {
     SubscriptionRepository subscriptionRepository;
 
     public SubscriptionService() {
-
+        // Constructor is empty because any specific initialization logic is not needed
     }
 
     public List<Subscription> getRoles() {

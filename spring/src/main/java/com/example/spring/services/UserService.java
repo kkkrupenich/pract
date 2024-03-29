@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.spring.entities.User;
-import com.example.spring.repositories.UserRepository;;
+import com.example.spring.repositories.UserRepository;
 
 @Service
 public class UserService {
@@ -16,7 +16,7 @@ public class UserService {
     UserRepository userRepository;
 
     public UserService() {
-
+        // Constructor is empty because any specific initialization logic is not needed
     }
 
     public List<User> getRoles() {

@@ -16,7 +16,7 @@ public class CardService {
     CardRepository cardRepository;
 
     public CardService() {
-
+        // Constructor is empty because any specific initialization logic is not needed
     }
 
     public List<Card> getRoles() {

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.spring.entities.Role;
-import com.example.spring.repositories.RoleRepository;;
+import com.example.spring.repositories.RoleRepository;
 
 @Service
 public class RoleService {
@@ -16,7 +16,7 @@ public class RoleService {
     RoleRepository roleRepository;
 
     public RoleService() {
-
+        // Constructor is empty because any specific initialization logic is not needed
     }
 
     public List<Role> getRoles() {

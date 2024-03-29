@@ -16,7 +16,7 @@ public class GameService {
     GameRepository gameRepository;
 
     public GameService() {
-
+        // Constructor is empty because any specific initialization logic is not needed
     }
 
     public List<Game> getRoles() {

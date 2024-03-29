@@ -16,7 +16,7 @@ public class ChanceService {
     ChanceRepository chanceRepository;
 
     public ChanceService() {
-
+        // Constructor is empty because any specific initialization logic is not needed
     }
 
     public List<Chance> getRoles() {
