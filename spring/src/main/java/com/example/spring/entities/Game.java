@@ -14,11 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 
 @Entity
 @Table(name = "\"Game\"")
-@Data
 public class Game {
 
     @Id
@@ -43,7 +41,64 @@ public class Game {
     @Column(name = "\"MaximumBet\"")
     private double maximumBet;
 
-    @OneToMany(mappedBy="game")
-    @JsonIgnoreProperties(value = {"game", "handler", "hibernateLazyInitializer"}, allowSetters=true)
+    @OneToMany(mappedBy = "game")
+    @JsonIgnoreProperties(value = { "game", "handler", "hibernateLazyInitializer" }, allowSetters = true)
     private Set<Review> reviews;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isPremiumStatus() {
+        return premiumStatus;
+    }
+
+    public void setPremiumStatus(boolean premiumStatus) {
+        this.premiumStatus = premiumStatus;
+    }
+
+    public Chance getChance() {
+        return chance;
+    }
+
+    public void setChance(Chance chance) {
+        this.chance = chance;
+    }
+
+    public double getMinimalBet() {
+        return minimalBet;
+    }
+
+    public void setMinimalBet(double minimalBet) {
+        this.minimalBet = minimalBet;
+    }
+
+    public double getMaximumBet() {
+        return maximumBet;
+    }
+
+    public void setMaximumBet(double maximumBet) {
+        this.maximumBet = maximumBet;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
+
 }

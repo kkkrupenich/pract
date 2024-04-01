@@ -19,11 +19,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
 
 @Entity
 @Table(name = "\"User\"")
-@Data
 public class User {
 
     @Id
@@ -59,14 +57,93 @@ public class User {
     @JsonIgnoreProperties(value = { "users", "handler", "hibernateLazyInitializer" }, allowSetters = true)
     private Subscription subscription;
 
-    @OneToMany(mappedBy="user")
-    @JsonIgnoreProperties(value = {"user", "handler", "hibernateLazyInitializer"}, allowSetters=true)
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties(value = { "user", "handler", "hibernateLazyInitializer" }, allowSetters = true)
     private Set<Review> reviews;
 
     @ManyToMany()
-    @JsonIgnoreProperties(value = {"users", "handler", "hibernateLazyInitializer"}, allowSetters=true)
-    @JoinTable(name="\"Card_User\"",
-            joinColumns=@JoinColumn(name="\"UserID\"",referencedColumnName="\"ID\""),
-            inverseJoinColumns=@JoinColumn(name="\"CardID\"", referencedColumnName="\"ID\""))
+    @JsonIgnoreProperties(value = { "users", "handler", "hibernateLazyInitializer" }, allowSetters = true)
+    @JoinTable(name = "\"Card_User\"", joinColumns = @JoinColumn(name = "\"UserID\"", referencedColumnName = "\"ID\""), inverseJoinColumns = @JoinColumn(name = "\"CardID\"", referencedColumnName = "\"ID\""))
     private List<Card> cards;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFio() {
+        return fio;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
+    }
+
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+    }
+
 }
