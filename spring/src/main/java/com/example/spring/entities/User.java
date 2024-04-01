@@ -42,7 +42,7 @@ public class User {
     private String fio;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @Column(name = "\"PassportID\"")
+    @JoinColumn(name = "\"PassportID\"")
     @JsonIgnoreProperties(value = { "user", "handler", "hibernateLazyInitializer" }, allowSetters = true)
     private Passport passport;
 
@@ -66,7 +66,7 @@ public class User {
     @ManyToMany()
     @JsonIgnoreProperties(value = {"users", "handler", "hibernateLazyInitializer"}, allowSetters=true)
     @JoinTable(name="\"Card_User\"",
-            joinColumns=@JoinColumn(name="\"UserID\"",referencedColumnName="id"),
-            inverseJoinColumns=@JoinColumn(name="\"CardID\"", referencedColumnName="id"))
+            joinColumns=@JoinColumn(name="\"UserID\"",referencedColumnName="\"ID\""),
+            inverseJoinColumns=@JoinColumn(name="\"CardID\"", referencedColumnName="\"ID\""))
     private List<Card> cards;
 }
