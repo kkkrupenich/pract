@@ -1,11 +1,11 @@
-package orm;
+package repositories;
 import java.sql.*;
 import java.util.logging.Logger;
 
-public class Passport {
-    static Logger logger = Logger.getLogger(Passport.class.getName());
+public class PassportRepository {
+    static Logger logger = Logger.getLogger(PassportRepository.class.getName());
 
-    private Passport() {
+    private PassportRepository() {
         // Prevent instantiation
     }
 

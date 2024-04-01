@@ -1,12 +1,12 @@
-package orm;
+package repositories;
 
 import java.sql.*;
 import java.util.logging.Logger;
 
-public class Review {
-    static Logger logger = Logger.getLogger(Review.class.getName());
+public class ReviewRepository {
+    static Logger logger = Logger.getLogger(ReviewRepository.class.getName());
 
-    private Review() {
+    private ReviewRepository() {
         // Prevent instantiation
     }
 

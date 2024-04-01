@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.logging.Logger;
+
+import repositories.*;
+
 import java.util.Properties;
-import orm.*;
 
 public class App {
     private static final String PROPERTIES_FILE = "db.properties";
@@ -18,7 +20,7 @@ public class App {
         try (FileInputStream fis = new FileInputStream(PROPERTIES_FILE)) {
             properties.load(fis);
         } catch (IOException e) {
-            logger.info(e.toString());
+            logger.warning(e.toString());
         }
 
         String jdbcUrl = properties.getProperty("jdbc.url");
@@ -30,12 +32,10 @@ public class App {
         Logger logger = Logger.getLogger(App.class.getName());
 
         logger.info("Roles:");
-        Role.selectRoles(connection);
+        RoleRepository.selectRoles(connection);
 
         logger.info("Passports:");
-        Passport.selectPassport(connection);
-
-        Subscription.selectSubscription(connection);
+        PassportRepository.selectPassport(connection);
 
         connection.close();
     }

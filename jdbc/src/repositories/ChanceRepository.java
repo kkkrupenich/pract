@@ -1,12 +1,12 @@
-package orm;
+package repositories;
 
 import java.sql.*;
 import java.util.logging.Logger;
 
-public class Chance {
-    static Logger logger = Logger.getLogger(Chance.class.getName());
+public class ChanceRepository {
+    static Logger logger = Logger.getLogger(ChanceRepository.class.getName());
 
-    private Chance() {
+    private ChanceRepository() {
         // Prevent instantiation
     }
 
