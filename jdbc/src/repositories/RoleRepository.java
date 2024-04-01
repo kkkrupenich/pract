@@ -1,11 +1,11 @@
-package orm;
+package repositories;
 import java.sql.*;
 import java.util.logging.Logger;
 
-public class Role {
-    static Logger logger = Logger.getLogger(Role.class.getName());
+public class RoleRepository {
+    static Logger logger = Logger.getLogger(RoleRepository.class.getName());
 
-    private Role() {
+    private RoleRepository() {
         // Prevent instantiation
     }
 

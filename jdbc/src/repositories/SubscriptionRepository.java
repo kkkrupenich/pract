@@ -1,12 +1,12 @@
-package orm;
+package repositories;
 
 import java.sql.*;
 import java.util.logging.Logger;
 
-public class Subscription {
-    static Logger logger = Logger.getLogger(Subscription.class.getName());
+public class SubscriptionRepository {
+    static Logger logger = Logger.getLogger(SubscriptionRepository.class.getName());
 
-    private Subscription() {
+    private SubscriptionRepository() {
         // Prevent instantiation
     }
     

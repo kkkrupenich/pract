@@ -1,12 +1,12 @@
-package orm;
+package repositories;
 
 import java.sql.*;
 import java.util.logging.Logger;
 
-public class Card {
-    static Logger logger = Logger.getLogger(Card.class.getName());
+public class CardRepository {
+    static Logger logger = Logger.getLogger(CardRepository.class.getName());
 
-    private Card() {
+    private CardRepository() {
         // Prevent instantiation
     }
 
