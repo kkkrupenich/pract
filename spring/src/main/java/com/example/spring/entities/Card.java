@@ -5,9 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "\"Card\"")
@@ -30,4 +34,8 @@ public class Card {
 
     @Column(name = "\"CVV\"")
     private int cvv;
+
+    @ManyToMany(mappedBy="cards")
+    @JsonIgnoreProperties(value = {"cards", "handler", "hibernateLazyInitializer"}, allowSetters=true)
+    private List<User> users;
 }
