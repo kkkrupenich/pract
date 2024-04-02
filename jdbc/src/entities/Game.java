@@ -67,4 +67,9 @@ public class Game implements IEntity {
     public void setMaximumBet(double maximumBet) {
         this.maximumBet = maximumBet;
     }
+
+    @Override
+    public String toString() {
+        return "Game [id=" + id + ", name=" + name + ", premiumStatus=" + premiumStatus + "]";
+    }
 }

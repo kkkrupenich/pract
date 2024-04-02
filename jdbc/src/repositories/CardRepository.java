@@ -1,63 +1,79 @@
 package repositories;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
-public class CardRepository {
+import entities.IEntity;
+import entities.Card;
+
+public class CardRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(CardRepository.class.getName());
 
     private CardRepository() {
         // Prevent instantiation
     }
 
-    public static void selectCard(Connection connection) throws SQLException {
+    @Override
+    public List<IEntity> getAll(Connection connection) throws SQLException {
+        List<IEntity> list = new ArrayList<>();
+
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT \"ID\", \"Number\",\"ExpirationDate\", \"HolderName\", \"CVV\" FROM \"Card\"");
+                    "SELECT \"ID\", \"Number\",\"ExpirationDate\", \"HoldersName\", \"CVV\" FROM \"Card\"");
 
             while (resultSet.next()) {
-                String columnValue = resultSet.getString("Number");
-                logger.info(columnValue);
+                list.add(new Card(resultSet.getLong("ID"), resultSet.getString("Number"),
+                        resultSet.getDate("ExpirationDate"), resultSet.getString("HoldersName"),
+                        resultSet.getInt("CVV")));
             }
+        } catch (SQLException e) {
+            logger.info(e.toString());
         }
+
+        return list;
     }
 
-    public static void insertCard(Connection connection, String number, Date expirationDate,
-            String holdersName, String cvv, int userId) throws SQLException {
+    @Override
+    public IEntity getById(Connection connection, int id) throws SQLException {
+        String sql = "SELECT \"ID\", \"Number\",\"ExpirationDate\", \"HoldersName\", \"CVV\" FROM \"Card\" WHERE \"ID\" = ?";
+        Card card = new Card();
 
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                card = new Card((long) id, resultSet.getString("Number"),
+                        resultSet.getDate("ExpirationDate"), resultSet.getString("HoldersName"),
+                        resultSet.getInt("CVV"));
+            }
+        } catch (SQLException e) {
+            logger.info(e.toString());
+        }
+
+        return card;
+    }
+
+    @Override
+    public void insert(Connection connection, IEntity entity) throws SQLException {
+        Card card = (Card) entity;
         String sql = "INSERT INTO \"Card\"(\"Number\", \"ExpirationDate\", " +
                 "\"HoldersName\", \"CVV\") VALUES (?, ?, ?, ?)";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, number);
-            preparedStatement.setDate(2, expirationDate);
-            preparedStatement.setString(3, holdersName);
-            preparedStatement.setString(4, cvv);
+            preparedStatement.setString(1, card.getNumber());
+            preparedStatement.setDate(2, card.getExpirationDate());
+            preparedStatement.setString(3, card.getHoldersName());
+            preparedStatement.setInt(4, card.getCvv());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             logger.info(e.toString());
         }
-
-        int id = 0;
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT TOP 1 \"ID\" FROM \"Card\" ORDER BY ID DESC");
-
-            while (resultSet.next()) {
-                id = resultSet.getInt("ID");
-            }
-        }
-
-        sql = "INSERT INTO \"Card_User\"(\"CardID\", \"UserID\") VALUES (?, ?)";
-        try (PreparedStatement preparedStatement2 = connection.prepareStatement(sql)) {
-            preparedStatement2.setInt(1, id);
-            preparedStatement2.setInt(2, userId);
-            preparedStatement2.executeUpdate();
-        } catch (SQLException e) {
-            logger.info(e.toString());
-        }
     }
 
-    public static void deleteCard(Connection connection, int id) throws SQLException {
+    @Override
+    public void delete(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Card\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -69,12 +85,14 @@ public class CardRepository {
         }
     }
 
-    public static void updateCard(Connection connection, String number, int id) throws SQLException {
-
+    @Override
+    public void update(Connection connection, IEntity entity) throws SQLException {
+        Card card = (Card) entity;
         String sql = "UPDATE \"Card\" SET \"Number\" = ? WHERE \"ID\" = ?";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, number);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setString(1, card.getNumber());
+            preparedStatement.setLong(2, card.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

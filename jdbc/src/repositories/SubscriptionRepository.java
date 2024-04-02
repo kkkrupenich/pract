@@ -1,34 +1,65 @@
 package repositories;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
-public class SubscriptionRepository {
+import entities.IEntity;
+import entities.Subscription;
+
+public class SubscriptionRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(SubscriptionRepository.class.getName());
 
     private SubscriptionRepository() {
         // Prevent instantiation
     }
-    
-    public static void selectSubscription(Connection connection) throws SQLException {
+
+    @Override
+    public List<IEntity> getAll(Connection connection) throws SQLException {
+        List<IEntity> list = new ArrayList<>();
+
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"Status\" FROM \"Subscription\"");
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT \"ID\", \"Status\", \"ExpirationDate\" FROM \"Subscription\"");
 
             while (resultSet.next()) {
-                String columnValue = resultSet.getString("Status");
-                logger.info(columnValue);
+                list.add(new Subscription(resultSet.getLong("ID"), resultSet.getBoolean("ExpirationDate"),
+                        resultSet.getDate("ExpirationDate")));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
         }
+
+        return list;
     }
 
-    public static void insertSubscription(Connection connection, Boolean status, Date expirationDate) throws SQLException {
+    @Override
+    public IEntity getById(Connection connection, int id) throws SQLException {
+        String sql = "SELECT \"Status\", \"ExpirationDate\" FROM \"Subscription\" WHERE \"ID\" = ?";
+        Subscription subscription = new Subscription();
 
-        String sql = "INSERT INTO \"Subscription\"(\"Status\",\"ExpirationDate\") VALUES (?, ?)";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                subscription = new Subscription((long) id, resultSet.getBoolean("ExpirationDate"),
+                        resultSet.getDate("ExpirationDate"));
+            }
+        } catch (SQLException e) {
+            logger.info(e.toString());
+        }
+
+        return subscription;
+    }
+
+    @Override
+    public void insert(Connection connection, IEntity entity) throws SQLException {
+        Subscription subscription = (Subscription) entity;
+        String sql = "INSERT INTO \"Subscription\"(\"Status\", \"ExpirationDate\") VALUES (?, ?)";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setBoolean(1, status);
-            preparedStatement.setDate(2, expirationDate);
+            preparedStatement.setBoolean(1, subscription.isStatus());
+            preparedStatement.setDate(2, subscription.getExpirationDate());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -36,7 +67,8 @@ public class SubscriptionRepository {
         }
     }
 
-    public static void deleteSubscription(Connection connection, int id) throws SQLException {
+    @Override
+    public void delete(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Subscription\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -48,12 +80,14 @@ public class SubscriptionRepository {
         }
     }
 
-    public static void updateSubscriptionStatus(Connection connection, Boolean status, int id) throws SQLException {
-
+    @Override
+    public void update(Connection connection, IEntity entity) throws SQLException {
+        Subscription subscription = (Subscription) entity;
         String sql = "UPDATE \"Subscription\" SET \"Status\" = ? WHERE \"ID\" = ?";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setBoolean(1, status);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setBoolean(1, subscription.isStatus());
+            preparedStatement.setLong(2, subscription.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

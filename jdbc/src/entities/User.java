@@ -88,4 +88,9 @@ public class User implements IEntity {
     public void setSubscription(Long subscription) {
         this.subscription = subscription;
     }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", email=" + email + ", balance=" + balance + "]";
+    }
 }
