@@ -24,7 +24,7 @@ public class SubscriptionRepository implements BaseRepository {
                     "SELECT \"ID\", \"Status\", \"ExpirationDate\" FROM \"Subscription\"");
 
             while (resultSet.next()) {
-                list.add(new Subscription(resultSet.getLong("ID"), resultSet.getBoolean("ExpirationDate"),
+                list.add(new Subscription(resultSet.getLong("ID"), resultSet.getBoolean("Status"),
                         resultSet.getDate("ExpirationDate")));
             }
         } catch (SQLException e) {
@@ -42,7 +42,7 @@ public class SubscriptionRepository implements BaseRepository {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                subscription = new Subscription(id, resultSet.getBoolean("ExpirationDate"),
+                subscription = new Subscription(id, resultSet.getBoolean("Status"),
                         resultSet.getDate("ExpirationDate"));
             }
         } catch (SQLException e) {

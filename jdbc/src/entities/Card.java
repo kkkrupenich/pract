@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Card implements IEntity {
     private Long id;
-    private String number;
+    private Long number;
     private Date expirationDate;
     private String holdersName;
     private int cvv;
@@ -12,7 +12,7 @@ public class Card implements IEntity {
     public Card() {
     }
 
-    public Card(Long id, String number, Date expirationDate, String holdersName, int cvv) {
+    public Card(Long id, Long number, Date expirationDate, String holdersName, int cvv) {
         this.id = id;
         this.number = number;
         this.expirationDate = expirationDate;
@@ -28,11 +28,11 @@ public class Card implements IEntity {
         this.id = id;
     }
 
-    public String getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 
@@ -59,7 +59,7 @@ public class Card implements IEntity {
     public void setCvv(int cvv) {
         this.cvv = cvv;
     }
-    
+
     @Override
     public String toString() {
         return "Card [id=" + id + ", number=" + number + "]";

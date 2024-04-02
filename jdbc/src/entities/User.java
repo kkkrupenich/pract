@@ -10,15 +10,14 @@ public class User implements IEntity {
     private Long passportID;
     private Long roleID;
     private double balance;
-    private Long subscription;
+    private Long subscriptionID;
     private List<Long> cardsId;
-    private List<Long> reviewsId;
 
     public User() {
     }
 
     public User(Long id, String email, String password, String fio, Long passportID, Long roleID, double balance,
-            Long subscription, List<Long> cardsId, List<Long> reviewsId) {
+            Long subscriptionID, List<Long> cardsId) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -26,9 +25,8 @@ public class User implements IEntity {
         this.passportID = passportID;
         this.roleID = roleID;
         this.balance = balance;
-        this.subscription = subscription;
+        this.subscriptionID = subscriptionID;
         this.cardsId = cardsId;
-        this.reviewsId = reviewsId;
     }
 
     public Long getId() {
@@ -87,12 +85,12 @@ public class User implements IEntity {
         this.balance = balance;
     }
 
-    public Long getSubscription() {
-        return subscription;
+    public Long getSubscriptionID() {
+        return subscriptionID;
     }
 
-    public void setSubscription(Long subscription) {
-        this.subscription = subscription;
+    public void setSubscriptionID(Long subscription) {
+        this.subscriptionID = subscription;
     }
 
     public void addCard(Long cardId) {
@@ -105,18 +103,6 @@ public class User implements IEntity {
 
     public List<Long> getCards() {
         return cardsId;
-    }
-
-    public void addReview(Long reviewId) {
-        this.reviewsId.add(reviewId);
-    }
-
-    public void removeReview(Long reviewId) {
-        this.reviewsId.remove(reviewId);
-    }
-
-    public List<Long> getReviews() {
-        return reviewsId;
     }
 
     @Override
