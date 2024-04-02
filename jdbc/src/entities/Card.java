@@ -59,7 +59,7 @@ public class Card implements IEntity {
     public void setCvv(int cvv) {
         this.cvv = cvv;
     }
-
+    
     @Override
     public String toString() {
         return "Card [id=" + id + ", number=" + number + "]";

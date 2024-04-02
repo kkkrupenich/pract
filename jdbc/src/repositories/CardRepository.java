@@ -11,7 +11,7 @@ import entities.Card;
 public class CardRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(CardRepository.class.getName());
 
-    private CardRepository() {
+    public CardRepository() {
         // Prevent instantiation
     }
 
@@ -36,14 +36,14 @@ public class CardRepository implements BaseRepository {
     }
 
     @Override
-    public IEntity getById(Connection connection, int id) throws SQLException {
+    public IEntity getById(Connection connection, Long id) throws SQLException {
         String sql = "SELECT \"ID\", \"Number\",\"ExpirationDate\", \"HoldersName\", \"CVV\" FROM \"Card\" WHERE \"ID\" = ?";
         Card card = new Card();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                card = new Card((long) id, resultSet.getString("Number"),
+                card = new Card(id, resultSet.getString("Number"),
                         resultSet.getDate("ExpirationDate"), resultSet.getString("HoldersName"),
                         resultSet.getInt("CVV"));
             }
@@ -73,11 +73,11 @@ public class CardRepository implements BaseRepository {
     }
 
     @Override
-    public void delete(Connection connection, int id) throws SQLException {
+    public void delete(Connection connection, Long id) throws SQLException {
 
         String sql = "DELETE FROM \"Card\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -11,7 +11,7 @@ import entities.Game;
 public class GameRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(GameRepository.class.getName());
 
-    private GameRepository() {
+    public GameRepository() {
         // Prevent instantiation
     }
 
@@ -36,14 +36,14 @@ public class GameRepository implements BaseRepository {
     }
 
     @Override
-    public IEntity getById(Connection connection, int id) throws SQLException {
+    public IEntity getById(Connection connection, Long id) throws SQLException {
         String sql = "SELECT \"ID\", \"Name\",\"PremiumStatus\", \"ChanceID\", \"MinimalBet\", \"MaximumBet\" FROM \"Game\" WHERE \"ID\" = ?";
         Game game = new Game();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                game = new Game((long) id, resultSet.getString("Name"),
+                game = new Game(id, resultSet.getString("Name"),
                         resultSet.getBoolean("PremiumStatus"), resultSet.getLong("ChanceID"),
                         resultSet.getDouble("MinimalBet"), resultSet.getDouble("MaximumBet"));
             }
@@ -74,11 +74,11 @@ public class GameRepository implements BaseRepository {
     }
 
     @Override
-    public void delete(Connection connection, int id) throws SQLException {
+    public void delete(Connection connection, Long id) throws SQLException {
 
         String sql = "DELETE FROM \"Game\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

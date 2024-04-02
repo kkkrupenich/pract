@@ -10,7 +10,7 @@ import entities.Role;
 public class RoleRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(RoleRepository.class.getName());
 
-    private RoleRepository() {
+    public RoleRepository() {
         // Prevent instantiation
     }
 
@@ -33,14 +33,14 @@ public class RoleRepository implements BaseRepository {
     }
 
     @Override
-    public IEntity getById(Connection connection, int id) throws SQLException {
+    public IEntity getById(Connection connection, Long id) throws SQLException {
         String sql = "SELECT \"RoleName\" FROM \"Role\" WHERE \"ID\" = ?";
         Role role = new Role();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                role = new Role((long) id, resultSet.getString("RoleName"));
+                role = new Role(id, resultSet.getString("RoleName"));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
@@ -64,11 +64,11 @@ public class RoleRepository implements BaseRepository {
     }
 
     @Override
-    public void delete(Connection connection, int id) throws SQLException {
+    public void delete(Connection connection, Long id) throws SQLException {
 
         String sql = "DELETE FROM \"Role\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

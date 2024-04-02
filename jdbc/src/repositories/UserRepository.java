@@ -11,7 +11,7 @@ import entities.User;
 public class UserRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(UserRepository.class.getName());
 
-    private UserRepository() {
+    public UserRepository() {
         // Prevent instantiation
     }
 
@@ -27,7 +27,8 @@ public class UserRepository implements BaseRepository {
                 list.add(new User(resultSet.getLong("ID"), resultSet.getString("Email"),
                         resultSet.getString("Password"), resultSet.getString("FIO"),
                         resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
-                        resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID")));
+                        resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID"),
+                        new ArrayList<Long>(), new ArrayList<Long>()));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
@@ -37,17 +38,18 @@ public class UserRepository implements BaseRepository {
     }
 
     @Override
-    public IEntity getById(Connection connection, int id) throws SQLException {
+    public IEntity getById(Connection connection, Long id) throws SQLException {
         String sql = "SELECT \"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\" FROM \"User\"; WHERE \"ID\" = ?";
         User user = new User();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                user = new User((long) id, resultSet.getString("Email"),
+                user = new User(id, resultSet.getString("Email"),
                         resultSet.getString("Password"), resultSet.getString("FIO"),
                         resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
-                        resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID"));
+                        resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID"),
+                        new ArrayList<Long>(), new ArrayList<Long>());
             }
         } catch (SQLException e) {
             logger.info(e.toString());
@@ -77,11 +79,11 @@ public class UserRepository implements BaseRepository {
     }
 
     @Override
-    public void delete(Connection connection, int id) throws SQLException {
+    public void delete(Connection connection, Long id) throws SQLException {
 
         String sql = "DELETE FROM \"User\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

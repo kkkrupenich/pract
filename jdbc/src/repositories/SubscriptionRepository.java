@@ -11,7 +11,7 @@ import entities.Subscription;
 public class SubscriptionRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(SubscriptionRepository.class.getName());
 
-    private SubscriptionRepository() {
+    public SubscriptionRepository() {
         // Prevent instantiation
     }
 
@@ -35,14 +35,14 @@ public class SubscriptionRepository implements BaseRepository {
     }
 
     @Override
-    public IEntity getById(Connection connection, int id) throws SQLException {
+    public IEntity getById(Connection connection, Long id) throws SQLException {
         String sql = "SELECT \"Status\", \"ExpirationDate\" FROM \"Subscription\" WHERE \"ID\" = ?";
         Subscription subscription = new Subscription();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                subscription = new Subscription((long) id, resultSet.getBoolean("ExpirationDate"),
+                subscription = new Subscription(id, resultSet.getBoolean("ExpirationDate"),
                         resultSet.getDate("ExpirationDate"));
             }
         } catch (SQLException e) {
@@ -68,11 +68,11 @@ public class SubscriptionRepository implements BaseRepository {
     }
 
     @Override
-    public void delete(Connection connection, int id) throws SQLException {
+    public void delete(Connection connection, Long id) throws SQLException {
 
         String sql = "DELETE FROM \"Subscription\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
