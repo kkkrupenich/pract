@@ -14,11 +14,11 @@ import java.util.logging.Logger;
 import entities.*;
 import repositories.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class App {
     private static final Scanner scanner = new Scanner(System.in);
@@ -28,108 +28,90 @@ public class App {
     public static void printEntities(BaseRepository repository, Connection connection) throws SQLException {
         var listEntities = repository.getAll(connection);
         for (int i = 0; i < listEntities.size(); i++) {
-            System.console().printf(String.format("%d. %s%n%n", i+1, listEntities.get(i).toString()));
+            System.console().printf(String.format("%d. %s%n%n", i + 1, listEntities.get(i).toString()));
         }
     }
 
-    public static void printEntities(String fieldName, Connection connection) throws SQLException{
+    public static void printEntities(String fieldName, Connection connection) throws SQLException {
         if (fieldName.startsWith("card")) {
             CardRepository cardRepository = new CardRepository();
             printEntities(cardRepository, connection);
-        }
-        else if (fieldName.startsWith("chance")) {
+        } else if (fieldName.startsWith("chance")) {
             ChanceRepository authorRepository = new ChanceRepository();
             printEntities(authorRepository, connection);
-        }
-        else if (fieldName.startsWith("game")) {
+        } else if (fieldName.startsWith("game")) {
             GameRepository roleRepository = new GameRepository();
             printEntities(roleRepository, connection);
-        }
-        else if (fieldName.startsWith("passport")) {
+        } else if (fieldName.startsWith("passport")) {
             PassportRepository orderRepository = new PassportRepository();
             printEntities(orderRepository, connection);
-        }
-        else if (fieldName.startsWith("review")) {
+        } else if (fieldName.startsWith("review")) {
             ReviewRepository genreRepository = new ReviewRepository();
             printEntities(genreRepository, connection);
-        }
-        else if (fieldName.startsWith("role")) {
+        } else if (fieldName.startsWith("role")) {
             RoleRepository userRepository = new RoleRepository();
             printEntities(userRepository, connection);
-        }
-        else if (fieldName.startsWith("subscription")) {
+        } else if (fieldName.startsWith("subscription")) {
             SubscriptionRepository userRepository = new SubscriptionRepository();
             printEntities(userRepository, connection);
-        }
-        else if (fieldName.startsWith("user")) {
+        } else if (fieldName.startsWith("user")) {
             UserRepository userRepository = new UserRepository();
             printEntities(userRepository, connection);
         }
     }
 
-        public static void add(BaseRepository repository, IEntity entity, Connection connection) throws IllegalAccessException, ParseException, SQLException {
+    @SuppressWarnings("unchecked")
+    public static void add(BaseRepository repository, IEntity entity, Connection connection)
+            throws IllegalAccessException, ParseException, SQLException {
         Field[] fields = entity.getClass().getDeclaredFields();
         for (var field : fields) {
             field.setAccessible(true);
             System.console().printf("Type " + field.getName());
-            if (field.getType() == boolean.class)  {
+            if (field.getType() == boolean.class) {
                 System.console().printf(" (boolean)\n");
                 String valueStr = scanner.next();
                 var value = Boolean.parseBoolean(valueStr);
                 field.set(entity, value);
-            }
-            else if (field.getType() == int.class) {
+            } else if (field.getType() == int.class) {
                 System.console().printf(" (int number)\n");
                 String valueStr = scanner.next();
                 var value = Integer.parseInt(valueStr);
                 field.set(entity, value);
-            } 
-            else if (field.getType() == double.class) {
+            } else if (field.getType() == double.class) {
                 System.console().printf(" (real number)\n");
                 String valueStr = scanner.next();
                 var value = Double.parseDouble(valueStr);
                 field.set(entity, value);
-            }
-            else if (field.getType() == Long.class && field.getName().contains("Id")) {
+            } else if (field.getType() == Long.class
+                    && (field.getName().contains("Id") || field.getName().contains("ID"))) {
                 System.console().printf(" (Long ID format)\n");
                 printEntities(field.getName(), connection);
                 var value = Long.parseLong(scanner.next());
                 field.set(entity, value);
-            }
-            else if (field.getType() == Long.class && field.getName().equals("id")) {
+            } else if (field.getType() == Long.class && field.getName().equals("id")) {
                 System.console().printf(" (Long ID format)\n");
                 var value = Long.parseLong(scanner.next());
                 field.set(entity, value);
-            }
-            else if (field.getType() == Date.class) {
+            } else if (field.getType() == Long.class) {
+                System.console().printf(" (long number)\n");
+                String valueStr = scanner.next();
+                var value = Long.parseLong(valueStr);
+                field.set(entity, value);
+            } else if (field.getType() == Date.class) {
                 System.console().printf(" (date with dd-MM-yyyy format)\n");
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                 var strValue = scanner.next();
-                var value = formatter.parse(strValue);
+                var value = new java.sql.Date(formatter.parse(strValue).getTime());
                 field.set(entity, value);
-            }
-            else if (field.getType() == String.class) {
+            } else if (field.getType() == String.class) {
                 System.console().printf(" (string)\n");
                 var value = scanner.next();
                 field.set(entity, value);
-            }
-            else if (field.getName().equals("reviewsId")) {
-                List<Long> reviewsIds = (List<Long>)field.get(entity);
-                System.console().printf("Long ID format)\n");
-                printEntities(field.getName(), connection);
-                while (true) {
-                    System.console().printf("Type 'cancel' if you want to stop add reviews\n");
-                    var value = scanner.next();
-                    if (value.equals("cancel")) {
-                        break;
-                    }
-                    var valueLong = Long.parseLong(value);
-                    reviewsIds.add(valueLong);
+            } else if (field.getName().equals("cardsId")) {
+                List<Long> cardsIds = (List<Long>) field.get(entity);
+                if (cardsIds == null) {
+                    cardsIds = new ArrayList<Long>();
                 }
-                field.set(entity, reviewsIds);
-            }
-            else if (field.getName().equals("cardsId")) {
-                List<Long> cardsIds = (List<Long>)field.get(entity);
                 System.console().printf(" (Long ID format)\n");
                 printEntities(field.getName(), connection);
                 while (true) {
@@ -142,15 +124,16 @@ public class App {
                     cardsIds.add(valueLong);
                 }
                 field.set(entity, cardsIds);
-            }
-            else {
+            } else {
                 System.console().printf("\nUnknown type\n");
             }
         }
         repository.insert(connection, entity);
     }
 
-    public static void update(BaseRepository repository, IEntity entity, Connection connection) throws IllegalAccessException, ParseException, SQLException {
+    @SuppressWarnings("unchecked")
+    public static void update(BaseRepository repository, IEntity entity, Connection connection)
+            throws IllegalAccessException, ParseException, SQLException {
         Field[] fields = entity.getClass().getDeclaredFields();
         for (var field : fields) {
             if (field.getName().equals("id")) {
@@ -158,73 +141,62 @@ public class App {
             }
             field.setAccessible(true);
             System.console().printf("Type " + field.getName());
-            if (field.getType() == boolean.class)  {
+            if (field.getType() == boolean.class) {
                 System.console().printf(" (boolean)\n");
                 String valueStr = scanner.next();
                 var value = Boolean.parseBoolean(valueStr);
                 field.set(entity, value);
-            }
-            else if (field.getType() == int.class) {
+            } else if (field.getType() == int.class) {
                 System.console().printf(" (int number)\n");
                 String valueStr = scanner.next();
                 var value = Integer.parseInt(valueStr);
                 field.set(entity, value);
-            } 
-            else if (field.getType() == double.class) {
+            } else if (field.getType() == double.class) {
                 System.console().printf(" (real number)\n");
                 String valueStr = scanner.next();
                 var value = Double.parseDouble(valueStr);
                 field.set(entity, value);
-            }
-            else if (field.getType() == Long.class && field.getName().contains("Id")) {
-                System.console().printf(" (uuid with xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx format)\n");
+            } else if (field.getType() == Long.class
+                    && (field.getName().contains("Id") || field.getName().contains("ID"))) {
+                System.console().printf(" (Long ID format)\n");
                 printEntities(field.getName(), connection);
                 var value = Long.parseLong(scanner.next());
                 field.set(entity, value);
-            }
-            else if (field.getType() == Date.class) {
+            } else if (field.getType() == Long.class) {
+                System.console().printf(" (long number)\n");
+                String valueStr = scanner.next();
+                var value = Long.parseLong(valueStr);
+                field.set(entity, value);
+            } else if (field.getType() == Date.class) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                 System.console().printf(" (date with dd-MM-yyyy format)\n");
                 var strValue = scanner.next();
-                var value = formatter.parse(strValue);
+                var value = new java.sql.Date(formatter.parse(strValue).getTime());
                 field.set(entity, value);
-            }
-            else if (field.getType() == String.class) {
+            } else if (field.getType() == String.class) {
                 System.console().printf(" (string)\n");
                 var value = scanner.next();
                 field.set(entity, value);
-            }
-            else if (field.getName().equals("reviewsId")) {
-                List<Long> reviewsId = (List<Long>)field.get(entity);
+            } else if (field.getName().equals("cardsId")) {
+                List<Long> cardsIds = (List<Long>) field.get(entity);
+
+                if (cardsIds == null) {
+                    cardsIds = new ArrayList<Long>();
+                }
+
                 System.console().printf(" (Long ID format)\n");
                 printEntities(field.getName(), connection);
                 while (true) {
-                    System.console().printf("Type 'cancel' if you want to stop add books\n");
+                    System.console().printf("Type 'cancel' if you want to stop add cards\n");
                     var value = scanner.next();
                     if (value.equals("cancel")) {
                         break;
                     }
                     var valueLong = Long.parseLong(value);
-                    reviewsId.add(valueLong);
+                    cardsIds.add(valueLong);
                 }
-                field.set(entity, reviewsId);
-            }
-            else if (field.getName().equals("cardsId")) {
-                List<Long> cardsId = (List<Long>)field.get(entity);
-                System.console().printf(" (Long ID format)\n");
-                printEntities(field.getName(), connection);
-                while (true) {
-                    System.console().printf("Type 'cancel' if you want to stop add genres\n");
-                    var value = scanner.next();
-                    if (value.equals("cancel")) {
-                        break;
-                    }
-                    var valueLong = Long.parseLong(value);
-                    cardsId.add(valueLong);
-                }
-                field.set(entity, cardsId);
-            }
-            else {
+                field.set(entity, cardsIds);
+            } else {
                 System.console().printf("\nUnknown type\n");
             }
         }
@@ -262,21 +234,23 @@ public class App {
                     break;
                 default:
                     return;
-            }    
+            }
         } catch (NumberFormatException e) {
             System.console().printf("Typed value not number, try again\n");
         } catch (IllegalArgumentException e) {
+            System.console().printf(e.getMessage().toString());
             System.console().printf("Not correct format\n");
         } catch (ParseException e) {
+            System.console().printf(e.getMessage().toString());
             System.console().printf("Not correct date format\n");
         } catch (SQLException e) {
             System.console().printf("ID not found in db or connection lost\n");
         }
-    }    
+    }
 
     public static void main(String[] args) throws Exception {
         Properties properties = new Properties();
-        
+
         try (FileInputStream fis = new FileInputStream(PROPERTIES_FILE)) {
             properties.load(fis);
         } catch (IOException e) {
@@ -294,10 +268,10 @@ public class App {
                 System.console().printf("Choose repo:\n");
                 System.console().printf("1. User\n");
                 System.console().printf("2. Role\n");
-                System.console().printf("3. Author\n");
-                System.console().printf("4. Book\n");
-                System.console().printf("5. Genre:\n");
-                System.console().printf("6. Order:\n");
+                System.console().printf("3. Card\n");
+                System.console().printf("4. Chance\n");
+                System.console().printf("5. Game:\n");
+                System.console().printf("6. Passport:\n");
                 System.console().printf("7. Review:\n");
                 System.console().printf("8. Subscription:\n");
                 System.console().printf("Type any other number to end.\n");
@@ -348,7 +322,7 @@ public class App {
                         connection.close();
                         return;
                 }
-            
+
             } catch (NumberFormatException e) {
                 System.console().printf("Typed value not int, try again\n");
             } catch (SQLException e) {

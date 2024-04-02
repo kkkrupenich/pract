@@ -28,7 +28,7 @@ public class UserRepository implements BaseRepository {
                         resultSet.getString("Password"), resultSet.getString("FIO"),
                         resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
                         resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID"),
-                        new ArrayList<Long>(), new ArrayList<Long>()));
+                        new ArrayList<Long>()));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
@@ -49,7 +49,7 @@ public class UserRepository implements BaseRepository {
                         resultSet.getString("Password"), resultSet.getString("FIO"),
                         resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
                         resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID"),
-                        new ArrayList<Long>(), new ArrayList<Long>());
+                        new ArrayList<Long>());
             }
         } catch (SQLException e) {
             logger.info(e.toString());
@@ -61,7 +61,11 @@ public class UserRepository implements BaseRepository {
     @Override
     public void insert(Connection connection, IEntity entity) throws SQLException {
         User user = (User) entity;
-        String sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\") VALUES (?, ?, ?, ?, ?, ?, ?)";
+        boolean check = user.getSubscriptionID() != 0 ? true : false;
+
+        String sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\") VALUES (?, ?, ?, ?, ?, ?)";
+        if (check)
+            sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\") VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, user.getEmail());
@@ -70,11 +74,40 @@ public class UserRepository implements BaseRepository {
             preparedStatement.setLong(4, user.getPassportID());
             preparedStatement.setLong(5, user.getRoleID());
             preparedStatement.setDouble(6, user.getBalance());
-            preparedStatement.setLong(7, user.getSubscription());
+            if (check) {
+                preparedStatement.setLong(7, user.getSubscriptionID());
+            }
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             logger.info(e.toString());
+            return;
+        }
+
+        if (!user.getCards().isEmpty()) {
+            for (Long card : user.getCards()) {
+                Long id = (long) 0;
+                try (Statement statement = connection.createStatement()) {
+                    ResultSet resultSet = statement.executeQuery(
+                            "SELECT \"ID\" FROM \"User\" ORDER BY \"ID\" DESC LIMIT 1;");
+
+                    while (resultSet.next()) {
+                        id = resultSet.getLong("ID");
+                    }
+                } catch (SQLException e) {
+                    logger.info(e.toString());
+                }
+
+                sql = "INSERT INTO \"Card_User\"(\"CardID\", \"UserID\") VALUES (?, ?)";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    preparedStatement.setLong(1, card);
+                    preparedStatement.setLong(2, id);
+
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    logger.info(e.toString());
+                }
+            }
         }
     }
 

@@ -24,7 +24,7 @@ public class CardRepository implements BaseRepository {
                     "SELECT \"ID\", \"Number\",\"ExpirationDate\", \"HoldersName\", \"CVV\" FROM \"Card\"");
 
             while (resultSet.next()) {
-                list.add(new Card(resultSet.getLong("ID"), resultSet.getString("Number"),
+                list.add(new Card(resultSet.getLong("ID"), resultSet.getLong("Number"),
                         resultSet.getDate("ExpirationDate"), resultSet.getString("HoldersName"),
                         resultSet.getInt("CVV")));
             }
@@ -43,7 +43,7 @@ public class CardRepository implements BaseRepository {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                card = new Card(id, resultSet.getString("Number"),
+                card = new Card(id, resultSet.getLong("Number"),
                         resultSet.getDate("ExpirationDate"), resultSet.getString("HoldersName"),
                         resultSet.getInt("CVV"));
             }
@@ -61,7 +61,7 @@ public class CardRepository implements BaseRepository {
                 "\"HoldersName\", \"CVV\") VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, card.getNumber());
+            preparedStatement.setLong(1, card.getNumber());
             preparedStatement.setDate(2, card.getExpirationDate());
             preparedStatement.setString(3, card.getHoldersName());
             preparedStatement.setInt(4, card.getCvv());
@@ -91,7 +91,7 @@ public class CardRepository implements BaseRepository {
         String sql = "UPDATE \"Card\" SET \"Number\" = ? WHERE \"ID\" = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, card.getNumber());
+            preparedStatement.setLong(1, card.getNumber());
             preparedStatement.setLong(2, card.getId());
 
             preparedStatement.executeUpdate();
