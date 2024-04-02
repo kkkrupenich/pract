@@ -39,4 +39,9 @@ public class Subscription implements IEntity {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Subscription [id=" + id + ", status=" + status + ", expirationDate=" + expirationDate + "]";
+    }
 }

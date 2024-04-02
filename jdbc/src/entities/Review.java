@@ -69,4 +69,9 @@ public class Review implements IEntity {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Review [id=" + id + ", userID=" + userID + ", gameID=" + gameID + ", message=" + message + "]";
+    }
 }

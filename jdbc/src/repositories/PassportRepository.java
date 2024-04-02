@@ -1,39 +1,70 @@
 package repositories;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
-public class PassportRepository {
+import entities.Passport;
+import entities.IEntity;
+
+public class PassportRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(PassportRepository.class.getName());
 
     private PassportRepository() {
         // Prevent instantiation
     }
 
-    public static void selectPassport(Connection connection) throws SQLException {
+    @Override
+    public List<IEntity> getAll(Connection connection) throws SQLException {
+        List<IEntity> list = new ArrayList<>();
+
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"SerialNumber\" FROM \"Passport\"");
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT \"ID\", \"SerialNumber\", \"IdentificationNumber\", \"Registration\", \"IssueDate\", \"ExpirationDate\" FROM \"Passport\"");
 
             while (resultSet.next()) {
-                String columnValue = resultSet.getString("SerialNumber");
-                logger.info(columnValue);
+                list.add(new Passport(resultSet.getLong("ID"), resultSet.getString("SerialNumber"),
+                        resultSet.getString("IdentificationNumber"), resultSet.getString("Registration"),
+                        resultSet.getDate("IssueDate"), resultSet.getDate("ExpirationDate")));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
         }
+
+        return list;
     }
 
-    public static void insertPassport(Connection connection, String serialNumber,
-            String identificationNumber, String registration, Date issueDate,
-            Date expirationDate) throws SQLException {
+    @Override
+    public IEntity getById(Connection connection, int id) throws SQLException {
+        String sql = "SELECT \"ID\", \"SerialNumber\", \"IdentificationNumber\", \"Registration\", \"IssueDate\", \"ExpirationDate\" FROM \"Passport\" WHERE \"ID\" = ?";
+        Passport passport = new Passport();
 
-        String sql = "INSERT INTO \"Passport\"(\"SerialNumber\", \"IdentificationNumber\", " +
-                "\"Registration\", \"IssueDate\", \"ExpirationDate\") VALUES (?, ?, ?, ?, ?)";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                passport = new Passport((long) id, resultSet.getString("SerialNumber"),
+                        resultSet.getString("IdentificationNumber"), resultSet.getString("Registration"),
+                        resultSet.getDate("IssueDate"), resultSet.getDate("ExpirationDate"));
+            }
+        } catch (SQLException e) {
+            logger.info(e.toString());
+        }
+
+        return passport;
+    }
+
+    @Override
+    public void insert(Connection connection, IEntity entity) throws SQLException {
+        Passport passport = (Passport) entity;
+        String sql = "INSERT INTO \"Passport\"(\"SerialNumber\", \"IdentificationNumber\", \"Registration\", \"IssueDate\", \"ExpirationDate\") VALUES (?, ?, ?, ?, ?)";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, serialNumber);
-            preparedStatement.setString(2, identificationNumber);
-            preparedStatement.setString(3, registration);
-            preparedStatement.setDate(4, issueDate);
-            preparedStatement.setDate(5, expirationDate);
+            preparedStatement.setString(1, passport.getSerialNumber());
+            preparedStatement.setString(2, passport.getIdentificationNumber());
+            preparedStatement.setString(3, passport.getRegistration());
+            preparedStatement.setDate(4, passport.getIssueDate());
+            preparedStatement.setDate(5, passport.getExpirationDate());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -41,7 +72,8 @@ public class PassportRepository {
         }
     }
 
-    public static void deletePassport(Connection connection, int id) throws SQLException {
+    @Override
+    public void delete(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Passport\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -53,12 +85,14 @@ public class PassportRepository {
         }
     }
 
-    public static void updatePassportSerialNumber(Connection connection, String serialNumber, int id) throws SQLException {
+    @Override
+    public void update(Connection connection, IEntity entity) throws SQLException {
+        Passport passport = (Passport) entity;
+        String sql = "UPDATE \"Passport\" SET \"Registration\" = ? WHERE \"ID\" = ?";
 
-        String sql = "UPDATE \"Passport\" SET \"SerialNumber\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, serialNumber);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setString(1, passport.getRegistration());
+            preparedStatement.setLong(2, passport.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

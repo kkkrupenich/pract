@@ -47,4 +47,10 @@ public class Chance implements IEntity {
     public void setWinChance(double winChance) {
         this.winChance = winChance;
     }
+
+    @Override
+    public String toString() {
+        return "Chance [id=" + id + ", loseChance=" + loseChance + ", returnChance=" + returnChance + ", winChance="
+                + winChance + "]";
+    }
 }

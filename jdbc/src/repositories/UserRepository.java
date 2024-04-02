@@ -1,39 +1,74 @@
 package repositories;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
-public class UserRepository {
+import entities.IEntity;
+import entities.User;
+
+public class UserRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(UserRepository.class.getName());
 
     private UserRepository() {
         // Prevent instantiation
     }
 
-    public static void selectUsers(Connection connection) throws SQLException {
+    @Override
+    public List<IEntity> getAll(Connection connection) throws SQLException {
+        List<IEntity> list = new ArrayList<>();
+
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"FIO\" FROM \"User\"");
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT \"ID\", \"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\" FROM \"User\"");
 
             while (resultSet.next()) {
-                String columnValue = resultSet.getString("FIO");
-                logger.info(columnValue);
+                list.add(new User(resultSet.getLong("ID"), resultSet.getString("Email"),
+                        resultSet.getString("Password"), resultSet.getString("FIO"),
+                        resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
+                        resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID")));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
         }
+
+        return list;
     }
 
-    public static void insertUser(Connection connection, String email, String password, String fio, int passId,
-            int roleId) throws SQLException {
+    @Override
+    public IEntity getById(Connection connection, int id) throws SQLException {
+        String sql = "SELECT \"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\" FROM \"User\"; WHERE \"ID\" = ?";
+        User user = new User();
 
-        String sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\",) VALUES (?, ?, ?, ?, ?, ?);";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                user = new User((long) id, resultSet.getString("Email"),
+                        resultSet.getString("Password"), resultSet.getString("FIO"),
+                        resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
+                        resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID"));
+            }
+        } catch (SQLException e) {
+            logger.info(e.toString());
+        }
+
+        return user;
+    }
+
+    @Override
+    public void insert(Connection connection, IEntity entity) throws SQLException {
+        User user = (User) entity;
+        String sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\") VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, fio);
-            preparedStatement.setInt(4, passId);
-            preparedStatement.setInt(5, roleId);
-            preparedStatement.setDouble(6, 0.0);
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getFio());
+            preparedStatement.setLong(4, user.getPassportID());
+            preparedStatement.setLong(5, user.getRoleID());
+            preparedStatement.setDouble(6, user.getBalance());
+            preparedStatement.setLong(7, user.getSubscription());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -41,7 +76,8 @@ public class UserRepository {
         }
     }
 
-    public static void deleteUser(Connection connection, int id) throws SQLException {
+    @Override
+    public void delete(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"User\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -53,12 +89,14 @@ public class UserRepository {
         }
     }
 
-    public static void updateUser(Connection connection, String fio, int id) throws SQLException {
+    @Override
+    public void update(Connection connection, IEntity entity) throws SQLException {
+        User user = (User) entity;
+        String sql = "UPDATE \"Subscription\" SET \"FIO\" = ? WHERE \"ID\" = ?";
 
-        String sql = "UPDATE \"User\" SET \"FIO\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, fio);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setString(1, user.getFio());
+            preparedStatement.setLong(2, user.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

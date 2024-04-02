@@ -70,4 +70,9 @@ public class Passport implements IEntity {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Passport [id=" + id + ", serialNumber=" + serialNumber + "]";
+    }
 }

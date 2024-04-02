@@ -1,36 +1,66 @@
 package repositories;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
-public class ChanceRepository {
+import entities.Chance;
+import entities.IEntity;
+
+public class ChanceRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(ChanceRepository.class.getName());
 
     private ChanceRepository() {
         // Prevent instantiation
     }
 
-    public static void selectChance(Connection connection) throws SQLException {
+    @Override
+    public List<IEntity> getAll(Connection connection) throws SQLException {
+        List<IEntity> list = new ArrayList<>();
+
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT \"ID\", \"LoseChance\" FROM \"Chance\"");
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT \"ID\", \"LoseChance\",\"ReturnChance\", \"WinChance\", FROM \"Chance\"");
 
             while (resultSet.next()) {
-                String columnValue = resultSet.getString("LoseChance");
-                logger.info(columnValue);
+                list.add(new Chance(resultSet.getLong("ID"), resultSet.getDouble("LoseChance"),
+                        resultSet.getDouble("ReturnChance"), resultSet.getDouble("WinChance")));
             }
         } catch (SQLException e) {
             logger.info(e.toString());
         }
+
+        return list;
     }
 
-    public static void insertChance(Connection connection, double loseChance, double returnChance, double winChance)
-            throws SQLException {
+    @Override
+    public IEntity getById(Connection connection, int id) throws SQLException {
+        String sql = "SELECT \"ID\", \"LoseChance\",\"ReturnChance\", \"WinChance\", FROM \"Chance\" WHERE \"ID\" = ?";
+        Chance chance = new Chance();
 
-        String sql = "INSERT INTO \"Chance\"(\"LoseChance\",\"ReturnChance\", \"WinChance\") VALUES (?, ?, ?)";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                chance = new Chance((long) id, resultSet.getDouble("LoseChance"),
+                        resultSet.getDouble("ReturnChance"), resultSet.getDouble("WinChance"));
+            }
+        } catch (SQLException e) {
+            logger.info(e.toString());
+        }
+
+        return chance;
+    }
+
+    @Override
+    public void insert(Connection connection, IEntity entity) throws SQLException {
+        Chance chance = (Chance) entity;
+        String sql = "INSERT INTO \"Chance\"(\"LoseChance\", \"ReturnChance\", \"WinChance\") VALUES (?, ?, ?)";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setDouble(1, loseChance);
-            preparedStatement.setDouble(2, returnChance);
-            preparedStatement.setDouble(3, winChance);
+            preparedStatement.setDouble(1, chance.getLoseChance());
+            preparedStatement.setDouble(2, chance.getReturnChance());
+            preparedStatement.setDouble(3, chance.getWinChance());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -38,7 +68,8 @@ public class ChanceRepository {
         }
     }
 
-    public static void deleteChance(Connection connection, int id) throws SQLException {
+    @Override
+    public void delete(Connection connection, int id) throws SQLException {
 
         String sql = "DELETE FROM \"Chance\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -50,15 +81,14 @@ public class ChanceRepository {
         }
     }
 
-    public static void updateChance(Connection connection, double loseChance, double returnChance, 
-                                    double winChance, int id) throws SQLException {
+    @Override
+    public void update(Connection connection, IEntity entity) throws SQLException {
+        Chance chance = (Chance) entity;
+        String sql = "UPDATE \"Chance\" SET \"LoseChance\" = ? WHERE \"ID\" = ?";
 
-        String sql = "UPDATE \"Subscription\" SET \"LoseChance\" = ?, \"ReturnChance\" = ?, \"WinChance\" = ? WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setDouble(1, loseChance);
-            preparedStatement.setDouble(2, returnChance);
-            preparedStatement.setDouble(3, winChance);
-            preparedStatement.setInt(4, id);
+            preparedStatement.setDouble(1, chance.getLoseChance());
+            preparedStatement.setLong(2, chance.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
