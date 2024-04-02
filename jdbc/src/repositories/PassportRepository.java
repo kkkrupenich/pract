@@ -11,7 +11,7 @@ import entities.IEntity;
 public class PassportRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(PassportRepository.class.getName());
 
-    private PassportRepository() {
+    public PassportRepository() {
         // Prevent instantiation
     }
 
@@ -36,14 +36,14 @@ public class PassportRepository implements BaseRepository {
     }
 
     @Override
-    public IEntity getById(Connection connection, int id) throws SQLException {
+    public IEntity getById(Connection connection, Long id) throws SQLException {
         String sql = "SELECT \"ID\", \"SerialNumber\", \"IdentificationNumber\", \"Registration\", \"IssueDate\", \"ExpirationDate\" FROM \"Passport\" WHERE \"ID\" = ?";
         Passport passport = new Passport();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                passport = new Passport((long) id, resultSet.getString("SerialNumber"),
+                passport = new Passport(id, resultSet.getString("SerialNumber"),
                         resultSet.getString("IdentificationNumber"), resultSet.getString("Registration"),
                         resultSet.getDate("IssueDate"), resultSet.getDate("ExpirationDate"));
             }
@@ -73,11 +73,11 @@ public class PassportRepository implements BaseRepository {
     }
 
     @Override
-    public void delete(Connection connection, int id) throws SQLException {
+    public void delete(Connection connection, Long id) throws SQLException {
 
         String sql = "DELETE FROM \"Passport\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

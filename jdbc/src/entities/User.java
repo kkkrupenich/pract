@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.List;
+
 public class User implements IEntity {
     private Long id;
     private String email;
@@ -9,12 +11,14 @@ public class User implements IEntity {
     private Long roleID;
     private double balance;
     private Long subscription;
+    private List<Long> cardsId;
+    private List<Long> reviewsId;
 
     public User() {
     }
 
     public User(Long id, String email, String password, String fio, Long passportID, Long roleID, double balance,
-            Long subscription) {
+            Long subscription, List<Long> cardsId, List<Long> reviewsId) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -23,6 +27,8 @@ public class User implements IEntity {
         this.roleID = roleID;
         this.balance = balance;
         this.subscription = subscription;
+        this.cardsId = cardsId;
+        this.reviewsId = reviewsId;
     }
 
     public Long getId() {
@@ -87,6 +93,30 @@ public class User implements IEntity {
 
     public void setSubscription(Long subscription) {
         this.subscription = subscription;
+    }
+
+    public void addCard(Long cardId) {
+        this.cardsId.add(cardId);
+    }
+
+    public void removeCard(Long cardId) {
+        this.cardsId.remove(cardId);
+    }
+
+    public List<Long> getCards() {
+        return cardsId;
+    }
+
+    public void addReview(Long reviewId) {
+        this.reviewsId.add(reviewId);
+    }
+
+    public void removeReview(Long reviewId) {
+        this.reviewsId.remove(reviewId);
+    }
+
+    public List<Long> getReviews() {
+        return reviewsId;
     }
 
     @Override

@@ -11,7 +11,7 @@ import entities.IEntity;
 public class ChanceRepository implements BaseRepository {
     static Logger logger = Logger.getLogger(ChanceRepository.class.getName());
 
-    private ChanceRepository() {
+    public ChanceRepository() {
         // Prevent instantiation
     }
 
@@ -35,14 +35,14 @@ public class ChanceRepository implements BaseRepository {
     }
 
     @Override
-    public IEntity getById(Connection connection, int id) throws SQLException {
+    public IEntity getById(Connection connection, Long id) throws SQLException {
         String sql = "SELECT \"ID\", \"LoseChance\",\"ReturnChance\", \"WinChance\", FROM \"Chance\" WHERE \"ID\" = ?";
         Chance chance = new Chance();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                chance = new Chance((long) id, resultSet.getDouble("LoseChance"),
+                chance = new Chance(id, resultSet.getDouble("LoseChance"),
                         resultSet.getDouble("ReturnChance"), resultSet.getDouble("WinChance"));
             }
         } catch (SQLException e) {
@@ -69,11 +69,11 @@ public class ChanceRepository implements BaseRepository {
     }
 
     @Override
-    public void delete(Connection connection, int id) throws SQLException {
+    public void delete(Connection connection, Long id) throws SQLException {
 
         String sql = "DELETE FROM \"Chance\" WHERE \"ID\" = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
