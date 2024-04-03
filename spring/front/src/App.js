@@ -25,9 +25,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to .
-        </p>
         <div className="App-intro">
           <h2>Roles List</h2>
           {roles.map(role =>
