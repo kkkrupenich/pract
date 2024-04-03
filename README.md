@@ -1,24 +1,21 @@
-# pract
+# Online Casino
 
 Крупенич Егор Геннадьевич
 https://sonarcloud.io/project/overview?id=kkkrupenich_pract
 
 ## 1. Сделать схему БД:
-план: 2 ч
-факт: 2 ч
-## 2. CRUD-операции с использованием JDBC:
-план: 6 ч
-факт: 6 ч
-## 3. Backend на SpringBoot + Hibernate:
-план: 18 ч
-факт: выполняется
-## 4. Angular - Frontend
-план: -
-факт: -
-## 5. React - Frontend
-план: -
-факт: -
-
-# Cхема бд
+* Ориентировочное время выполнения: 6 часов.
+* Фактическое время выполнения: 2 часа.
 
 ![схема бд](https://github.com/kkkrupenich/pract/blob/main/erd.png)
+
+## 2. CRUD-операции с использованием JDBC:
+* Ориентировочное время выполнения: 6 часов.
+* Фактическое время выполнения: 18 часов.
+
+## 3. Backend на SpringBoot + Hibernate:
+* Ориентировочное время выполнения: 18 часов.
+* Фактическое время выполнения: 18 часов.
+## 4. Angular - Frontend
+
+## 5. React - Frontend
