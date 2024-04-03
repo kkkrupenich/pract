@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,16 +21,19 @@ public class GameController {
     @Autowired
     GameService gameService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("games")
     public List<Game> getGames() {
         return gameService.getGames();
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("addgame")
     public Game addGame(@RequestBody Game game) {
         return gameService.addGame(game);
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @DeleteMapping("deletegame/{id}")
     public ResponseEntity<String> deleteGame(@PathVariable("id") Long id) {
         gameService.deleteGame(id);

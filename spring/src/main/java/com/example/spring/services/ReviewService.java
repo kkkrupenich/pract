@@ -7,13 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.spring.entities.Review;
+import com.example.spring.entities.User;
 import com.example.spring.repositories.ReviewRepository;
+import com.example.spring.repositories.UserRepository;
 
 @Service
 public class ReviewService {
 
     @Autowired
     ReviewRepository reviewRepository;
+    @Autowired
+    UserRepository userRepository;
 
     public ReviewService() {
         // Constructor is empty because any specific initialization logic is not needed
@@ -27,7 +31,9 @@ public class ReviewService {
         return reviewRepository.findById(id).get();
     }
 
-    public Review addReview(Review review) {
+    public Review addReview(Review review, String id) {
+        User user = userRepository.findById(Long.parseLong(id)).get();
+        review.setUser(user);
         return reviewRepository.save(review);
     }
 

@@ -1,6 +1,5 @@
 package com.example.spring.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +26,6 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final ApplicationUserDetailsService applicationUserDetailsService;
 
-    @Autowired
     public SecurityConfig(JwtFilter jwtFilter,
             ApplicationUserDetailsService applicationUserDetailsService) {
         this.jwtFilter = jwtFilter;

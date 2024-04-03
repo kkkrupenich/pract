@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,16 +21,19 @@ public class PassportController {
     @Autowired
     PassportService passportService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("passports")
     public List<Passport> getPassports() {
         return passportService.getPassports();
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("addpassport")
     public Passport addPassport(@RequestBody Passport passport) {
         return passportService.addPassport(passport);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("deletepassport/{id}")
     public ResponseEntity<String> deletePasspors(@PathVariable("id") Long id) {
         passportService.deletePasspors(id);

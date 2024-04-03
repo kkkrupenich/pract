@@ -44,7 +44,7 @@ public class User {
     @JsonIgnoreProperties(value = { "user", "handler", "hibernateLazyInitializer" }, allowSetters = true)
     private Passport passport;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "\"RoleID\"")
     @JsonIgnoreProperties(value = { "users", "handler", "hibernateLazyInitializer" }, allowSetters = true)
     private Role role;

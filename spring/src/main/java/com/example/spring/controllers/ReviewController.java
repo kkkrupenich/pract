@@ -1,9 +1,11 @@
 package com.example.spring.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,11 +27,13 @@ public class ReviewController {
         return reviewService.getReviews();
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("addreview")
-    public Review addReview(@RequestBody Review review) {
-        return reviewService.addReview(review);
+    public Review addReview(@RequestBody Review review, Principal principal) {
+        return reviewService.addReview(review, principal.getName());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("deletereview/{id}")
     public ResponseEntity<String> deleteReview(@PathVariable("id") Long id) {
         reviewService.deleteReview(id);

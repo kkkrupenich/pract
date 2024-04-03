@@ -1,9 +1,11 @@
 package com.example.spring.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,16 +22,19 @@ public class CardController {
     @Autowired
     CardService cardService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("cards")
     public List<Card> getCards() {
         return cardService.getCards();
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("addcard")
-    public Card addCard(@RequestBody Card card) {
-        return cardService.addCard(card);
+    public Card addCard(@RequestBody Card card, Principal principal) {
+        return cardService.addCard(card, principal.getName());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("deletecard/{id}")
     public ResponseEntity<String> deleteCard(@PathVariable("id") Long id) {
         cardService.deleteCard(id);
