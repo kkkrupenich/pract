@@ -29,7 +29,7 @@ public class UserRepository implements BaseRepository {
                         resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
                         resultSet.getLong("SubscriptionID"));
                 user.setBalance(resultSet.getDouble("Balance"));
-                user.setCardsId(new ArrayList<Long>());
+                user.setCardsId(new ArrayList<>());
                 list.add(user);
             }
         } catch (SQLException e) {
@@ -52,7 +52,7 @@ public class UserRepository implements BaseRepository {
                         resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
                         resultSet.getLong("SubscriptionID"));
                 user.setBalance(resultSet.getDouble("Balance"));
-                user.setCardsId(new ArrayList<Long>());
+                user.setCardsId(new ArrayList<>());
             }
         } catch (SQLException e) {
             logger.info(e.toString());
