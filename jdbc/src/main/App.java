@@ -69,50 +69,41 @@ public class App {
             System.console().printf("Type " + field.getName());
             if (field.getType() == boolean.class) {
                 System.console().printf(" (boolean)\n");
-                String valueStr = scanner.next();
-                var value = Boolean.parseBoolean(valueStr);
+                var value = Boolean.parseBoolean(scanner.next());
                 field.set(entity, value);
             } else if (field.getType() == int.class) {
                 System.console().printf(" (int number)\n");
-                String valueStr = scanner.next();
-                var value = Integer.parseInt(valueStr);
+                var value = Integer.parseInt(scanner.next());
                 field.set(entity, value);
             } else if (field.getType() == double.class) {
                 System.console().printf(" (real number)\n");
-                String valueStr = scanner.next();
-                var value = Double.parseDouble(valueStr);
+                var value = Double.parseDouble(scanner.next());
                 field.set(entity, value);
             } else if (field.getType() == Long.class
                     && (field.getName().contains("Id") || field.getName().contains("ID"))) {
-                System.console().printf(" (Long ID format)\n");
+                System.console().printf(" (Long format)\n");
                 printEntities(field.getName(), connection);
                 var value = Long.parseLong(scanner.next());
                 field.set(entity, value);
-            } else if (field.getType() == Long.class && field.getName().equals("id")) {
-                System.console().printf(" (Long ID format)\n");
+            } else if (field.getType() == Long.class
+                    || (field.getType() == Long.class && field.getName().equals("id"))) {
+                System.console().printf(" (Long ID)\n");
                 var value = Long.parseLong(scanner.next());
-                field.set(entity, value);
-            } else if (field.getType() == Long.class) {
-                System.console().printf(" (long number)\n");
-                String valueStr = scanner.next();
-                var value = Long.parseLong(valueStr);
                 field.set(entity, value);
             } else if (field.getType() == Date.class) {
                 System.console().printf(" (date with dd-MM-yyyy format)\n");
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-                var strValue = scanner.next();
-                var value = new java.sql.Date(formatter.parse(strValue).getTime());
+                var value = new java.sql.Date(formatter.parse(scanner.next()).getTime());
                 field.set(entity, value);
             } else if (field.getType() == String.class) {
                 System.console().printf(" (string)\n");
-                var value = scanner.next();
-                field.set(entity, value);
+                field.set(entity, scanner.next());
             } else if (field.getName().equals("cardsId")) {
                 List<Long> cardsIds = (List<Long>) field.get(entity);
                 if (cardsIds == null) {
-                    cardsIds = new ArrayList<Long>();
+                    cardsIds = new ArrayList<>();
                 }
-                System.console().printf(" (Long ID format)\n");
+                System.console().printf(" (Long format)\n");
                 printEntities(field.getName(), connection);
                 while (true) {
                     System.console().printf("Type 'cancel' if you want to stop add cards\n");
@@ -143,18 +134,15 @@ public class App {
             System.console().printf("Type " + field.getName());
             if (field.getType() == boolean.class) {
                 System.console().printf(" (boolean)\n");
-                String valueStr = scanner.next();
-                var value = Boolean.parseBoolean(valueStr);
+                var value = Boolean.parseBoolean(scanner.next());
                 field.set(entity, value);
             } else if (field.getType() == int.class) {
                 System.console().printf(" (int number)\n");
-                String valueStr = scanner.next();
-                var value = Integer.parseInt(valueStr);
+                var value = Integer.parseInt(scanner.next());
                 field.set(entity, value);
             } else if (field.getType() == double.class) {
                 System.console().printf(" (real number)\n");
-                String valueStr = scanner.next();
-                var value = Double.parseDouble(valueStr);
+                var value = Double.parseDouble(scanner.next());
                 field.set(entity, value);
             } else if (field.getType() == Long.class
                     && (field.getName().contains("Id") || field.getName().contains("ID"))) {
@@ -164,27 +152,23 @@ public class App {
                 field.set(entity, value);
             } else if (field.getType() == Long.class) {
                 System.console().printf(" (long number)\n");
-                String valueStr = scanner.next();
-                var value = Long.parseLong(valueStr);
+                var value = Long.parseLong(scanner.next());
                 field.set(entity, value);
             } else if (field.getType() == Date.class) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                 System.console().printf(" (date with dd-MM-yyyy format)\n");
-                var strValue = scanner.next();
-                var value = new java.sql.Date(formatter.parse(strValue).getTime());
+                var value = new java.sql.Date(formatter.parse(scanner.next()).getTime());
                 field.set(entity, value);
             } else if (field.getType() == String.class) {
                 System.console().printf(" (string)\n");
-                var value = scanner.next();
-                field.set(entity, value);
+                field.set(entity, scanner.next());
             } else if (field.getName().equals("cardsId")) {
                 List<Long> cardsIds = (List<Long>) field.get(entity);
-
                 if (cardsIds == null) {
-                    cardsIds = new ArrayList<Long>();
+                    cardsIds = new ArrayList<>();
                 }
 
-                System.console().printf(" (Long ID format)\n");
+                System.console().printf(" (Long)\n");
                 printEntities(field.getName(), connection);
                 while (true) {
                     System.console().printf("Type 'cancel' if you want to stop add cards\n");
@@ -238,10 +222,8 @@ public class App {
         } catch (NumberFormatException e) {
             System.console().printf("Typed value not number, try again\n");
         } catch (IllegalArgumentException e) {
-            System.console().printf(e.getMessage().toString());
             System.console().printf("Not correct format\n");
         } catch (ParseException e) {
-            System.console().printf(e.getMessage().toString());
             System.console().printf("Not correct date format\n");
         } catch (SQLException e) {
             System.console().printf("ID not found in db or connection lost\n");
