@@ -26,12 +26,12 @@ public class PassportController {
     }
 
     @PostMapping("addpassport")
-    public Passport addRole(@RequestBody Passport passport) {
-        return passportService.savePassport(passport);
+    public Passport addPassport(@RequestBody Passport passport) {
+        return passportService.addPassport(passport);
     }
 
     @DeleteMapping("deletepassport/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deletePasspors(@PathVariable("id") Long id) {
         passportService.deletePasspors(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }

@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring.entities.User;
@@ -21,18 +19,13 @@ public class UserController {
     UserService userService;
 
     @GetMapping("users")
-    public List<User> getRoles() {
-        return userService.getRoles();
-    }
-
-    @PostMapping("adduser")
-    public User addRole(@RequestBody User role) {
-        return userService.saveRole(role);
+    public List<User> getUsers() {
+        return userService.getUsers();
     }
 
     @DeleteMapping("deleteuser/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
-        userService.deleteRole(id);
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }
 }

@@ -21,7 +21,7 @@ public class Role {
     private Long id;
 
     @Column(name = "\"RoleName\"")
-    private String roleName;
+    private String name;
 
     @OneToMany(mappedBy = "role")
     @JsonIgnoreProperties(value = { "role", "passport", "handler", "hibernateLazyInitializer" }, allowSetters = true)
@@ -35,12 +35,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getName() {
+        return name;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<User> getUsers() {

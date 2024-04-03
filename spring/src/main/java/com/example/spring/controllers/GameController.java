@@ -21,18 +21,18 @@ public class GameController {
     GameService gameService;
 
     @GetMapping("games")
-    public List<Game> getRoles() {
-        return gameService.getRoles();
+    public List<Game> getGames() {
+        return gameService.getGames();
     }
 
     @PostMapping("addgame")
-    public Game addRole(@RequestBody Game role) {
-        return gameService.saveRole(role);
+    public Game addGame(@RequestBody Game game) {
+        return gameService.addGame(game);
     }
 
     @DeleteMapping("deletegame/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
-        gameService.deleteRole(id);
+    public ResponseEntity<String> deleteGame(@PathVariable("id") Long id) {
+        gameService.deleteGame(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }
 }

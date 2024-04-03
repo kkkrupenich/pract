@@ -23,7 +23,11 @@ public class PassportService {
         return passportRepository.findAll();
     }
 
-    public Passport savePassport(Passport passport) {
+    public Passport getPassportById(Long id) {
+        return passportRepository.findById(id).get();
+    }
+
+    public Passport addPassport(Passport passport) {
         return passportRepository.save(passport);
     }
 

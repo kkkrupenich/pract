@@ -29,7 +29,7 @@ function App() {
           <h2>Roles List</h2>
           {roles.map(role =>
             <div key={role.id}>
-              {role.roleName}
+              {role.name}
             </div>
           )}
         </div>

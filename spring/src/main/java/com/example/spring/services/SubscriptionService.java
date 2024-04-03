@@ -19,15 +19,19 @@ public class SubscriptionService {
         // Constructor is empty because any specific initialization logic is not needed
     }
 
-    public List<Subscription> getRoles() {
+    public List<Subscription> getSubscriptions() {
         return subscriptionRepository.findAll();
     }
 
-    public Subscription saveRole(Subscription role) {
-        return subscriptionRepository.save(role);
+    public Subscription getSubscriptionById(Long id) {
+        return subscriptionRepository.findById(id).get();
     }
 
-    public ResponseEntity<String> deleteRole(Long id) {
+    public Subscription addSubscription(Subscription subscription) {
+        return subscriptionRepository.save(subscription);
+    }
+
+    public ResponseEntity<String> deleteSubscription(Long id) {
         subscriptionRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }

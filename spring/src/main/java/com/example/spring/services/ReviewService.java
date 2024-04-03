@@ -19,15 +19,19 @@ public class ReviewService {
         // Constructor is empty because any specific initialization logic is not needed
     }
 
-    public List<Review> getRoles() {
+    public List<Review> getReviews() {
         return reviewRepository.findAll();
     }
 
-    public Review saveRole(Review role) {
-        return reviewRepository.save(role);
+    public Review getReviewById(Long id) {
+        return reviewRepository.findById(id).get();
     }
 
-    public ResponseEntity<String> deleteRole(Long id) {
+    public Review addReview(Review review) {
+        return reviewRepository.save(review);
+    }
+
+    public ResponseEntity<String> deleteReview(Long id) {
         reviewRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }

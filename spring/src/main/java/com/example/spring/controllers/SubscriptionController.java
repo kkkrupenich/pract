@@ -21,18 +21,18 @@ public class SubscriptionController {
     SubscriptionService subscriptionService;
 
     @GetMapping("subscriptions")
-    public List<Subscription> getRoles() {
-        return subscriptionService.getRoles();
+    public List<Subscription> getSubscriptions() {
+        return subscriptionService.getSubscriptions();
     }
 
     @PostMapping("addsubscription")
-    public Subscription addRole(@RequestBody Subscription role) {
-        return subscriptionService.saveRole(role);
+    public Subscription addSubscription(@RequestBody Subscription subscription) {
+        return subscriptionService.addSubscription(subscription);
     }
 
     @DeleteMapping("deletesubscription/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
-        subscriptionService.deleteRole(id);
+    public ResponseEntity<String> deleteSubscription(@PathVariable("id") Long id) {
+        subscriptionService.deleteSubscription(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }
 }

@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS public."Role"
 CREATE TABLE IF NOT EXISTS public."Passport"
 (
     "ID" serial NOT NULL PRIMARY KEY,
-    "SerialNumber" character varying NOT NULL,
-    "IdentificationNumber" character varying NOT NULL,
+    "SerialNumber" character varying NOT NULL UNIQUE,
+    "IdentificationNumber" character varying NOT NULL UNIQUE,
     "Registration" character varying NOT NULL,
     "IssueDate" date NOT NULL,
     "ExpirationDate" date NOT NULL
@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS public."Subscription"
 CREATE TABLE IF NOT EXISTS public."User"
 (
     "ID" serial NOT NULL PRIMARY KEY,
-    "Email" character varying NOT NULL,
+    "Email" character varying NOT NULL UNIQUE,
     "Password" character varying NOT NULL,
     "FIO" character varying NOT NULL,
-    "PassportID" serial NOT NULL REFERENCES public."Passport"("ID") ON DELETE CASCADE ON UPDATE CASCADE,
+    "PassportID" serial UNIQUE NOT NULL REFERENCES public."Passport"("ID") ON DELETE CASCADE ON UPDATE CASCADE,
     "RoleID" serial NOT NULL REFERENCES public."Role"("ID") ON DELETE CASCADE ON UPDATE CASCADE,
     "Balance" double precision NOT NULL,
     "SubscriptionID" serial REFERENCES public."Subscription"("ID") ON DELETE CASCADE ON UPDATE CASCADE
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public."Chance"
 CREATE TABLE IF NOT EXISTS public."Card"
 (
     "ID" serial NOT NULL PRIMARY KEY,
-    "Number" integer NOT NULL,
+    "Number" integer NOT NULL UNIQUE,
     "ExpirationDate" date NOT NULL,
     "HoldersName" character varying NOT NULL,
     "CVV" integer NOT NULL

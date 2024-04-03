@@ -21,18 +21,18 @@ public class CardController {
     CardService cardService;
 
     @GetMapping("cards")
-    public List<Card> getRoles() {
-        return cardService.getRoles();
+    public List<Card> getCards() {
+        return cardService.getCards();
     }
 
     @PostMapping("addcard")
-    public Card addRole(@RequestBody Card role) {
-        return cardService.saveRole(role);
+    public Card addCard(@RequestBody Card card) {
+        return cardService.addCard(card);
     }
 
     @DeleteMapping("deletecard/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
-        cardService.deleteRole(id);
+    public ResponseEntity<String> deleteCard(@PathVariable("id") Long id) {
+        cardService.deleteCard(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }
 }

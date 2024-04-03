@@ -19,15 +19,19 @@ public class ChanceService {
         // Constructor is empty because any specific initialization logic is not needed
     }
 
-    public List<Chance> getRoles() {
+    public List<Chance> getChance() {
         return chanceRepository.findAll();
     }
 
-    public Chance saveRole(Chance role) {
-        return chanceRepository.save(role);
+    public Chance getChanceById(Long id) {
+        return chanceRepository.findById(id).get();
     }
 
-    public ResponseEntity<String> deleteRole(Long id) {
+    public Chance addChance(Chance chance) {
+        return chanceRepository.save(chance);
+    }
+
+    public ResponseEntity<String> deleteChance(Long id) {
         chanceRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }

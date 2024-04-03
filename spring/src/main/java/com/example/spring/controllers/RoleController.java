@@ -27,11 +27,11 @@ public class RoleController {
 
 	@PostMapping("addrole")
 	public Role addRole(@RequestBody Role role) {
-		return roleService.saveRole(role);
+		return roleService.addRole(role);
 	}
 
 	@DeleteMapping("deleterole/{id}")
-	public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
+	public ResponseEntity<String> deleteRole(@PathVariable("id") Long id) {
 		roleService.deleteRole(id);
 		return ResponseEntity.ok("Todo deleted successfully!.");
 	}

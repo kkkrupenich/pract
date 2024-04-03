@@ -21,18 +21,18 @@ public class ChanceController {
     ChanceService chanceService;
 
     @GetMapping("chances")
-    public List<Chance> getRoles() {
-        return chanceService.getRoles();
+    public List<Chance> getChance() {
+        return chanceService.getChance();
     }
 
     @PostMapping("addchance")
-    public Chance addRole(@RequestBody Chance role) {
-        return chanceService.saveRole(role);
+    public Chance addChance(@RequestBody Chance chance) {
+        return chanceService.addChance(chance);
     }
 
     @DeleteMapping("deletechance/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
-        chanceService.deleteRole(id);
+    public ResponseEntity<String> deleteChance(@PathVariable("id") Long id) {
+        chanceService.deleteChance(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }
 }

@@ -23,7 +23,11 @@ public class RoleService {
         return roleRepository.findAll();
     }
 
-    public Role saveRole(Role role) {
+    public Role getRoleById(Long id) {
+        return roleRepository.findById(id).get();
+    }
+
+    public Role addRole(Role role) {
         return roleRepository.save(role);
     }
 

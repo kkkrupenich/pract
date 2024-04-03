@@ -19,15 +19,19 @@ public class CardService {
         // Constructor is empty because any specific initialization logic is not needed
     }
 
-    public List<Card> getRoles() {
+    public List<Card> getCards() {
         return cardRepository.findAll();
     }
 
-    public Card saveRole(Card role) {
-        return cardRepository.save(role);
+    public Card getCardById(Long id) {
+        return cardRepository.findById(id).get();
     }
 
-    public ResponseEntity<String> deleteRole(Long id) {
+    public Card addCard(Card card) {
+        return cardRepository.save(card);
+    }
+
+    public ResponseEntity<String> deleteCard(Long id) {
         cardRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }

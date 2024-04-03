@@ -21,18 +21,18 @@ public class ReviewController {
     ReviewService reviewService;
 
     @GetMapping("reviews")
-    public List<Review> getRoles() {
-        return reviewService.getRoles();
+    public List<Review> getReviews() {
+        return reviewService.getReviews();
     }
 
     @PostMapping("addreview")
-    public Review addRole(@RequestBody Review role) {
-        return reviewService.saveRole(role);
+    public Review addReview(@RequestBody Review review) {
+        return reviewService.addReview(review);
     }
 
     @DeleteMapping("deletereview/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id) {
-        reviewService.deleteRole(id);
+    public ResponseEntity<String> deleteReview(@PathVariable("id") Long id) {
+        reviewService.deleteReview(id);
         return ResponseEntity.ok("Todo deleted successfully!.");
     }
 }
