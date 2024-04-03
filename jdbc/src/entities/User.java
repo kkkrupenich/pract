@@ -16,17 +16,14 @@ public class User implements IEntity {
     public User() {
     }
 
-    public User(Long id, String email, String password, String fio, Long passportID, Long roleID, double balance,
-            Long subscriptionID, List<Long> cardsId) {
+    public User(Long id, String email, String password, String fio, Long passportID, Long roleID, Long subscriptionID) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.fio = fio;
         this.passportID = passportID;
         this.roleID = roleID;
-        this.balance = balance;
         this.subscriptionID = subscriptionID;
-        this.cardsId = cardsId;
     }
 
     public Long getId() {
@@ -91,6 +88,10 @@ public class User implements IEntity {
 
     public void setSubscriptionID(Long subscription) {
         this.subscriptionID = subscription;
+    }
+
+    public void setCardsId(List<Long> cardsId) {
+        this.cardsId = cardsId;
     }
 
     public void addCard(Long cardId) {

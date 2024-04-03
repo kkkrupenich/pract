@@ -24,11 +24,13 @@ public class UserRepository implements BaseRepository {
                     "SELECT \"ID\", \"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\" FROM \"User\"");
 
             while (resultSet.next()) {
-                list.add(new User(resultSet.getLong("ID"), resultSet.getString("Email"),
+                User user = new User(resultSet.getLong("ID"), resultSet.getString("Email"),
                         resultSet.getString("Password"), resultSet.getString("FIO"),
                         resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
-                        resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID"),
-                        new ArrayList<Long>()));
+                        resultSet.getLong("SubscriptionID"));
+                user.setBalance(resultSet.getDouble("Balance"));
+                user.setCardsId(new ArrayList<Long>());
+                list.add(user);
             }
         } catch (SQLException e) {
             logger.info(e.toString());
@@ -48,8 +50,9 @@ public class UserRepository implements BaseRepository {
                 user = new User(id, resultSet.getString("Email"),
                         resultSet.getString("Password"), resultSet.getString("FIO"),
                         resultSet.getLong("PassportID"), resultSet.getLong("RoleID"),
-                        resultSet.getDouble("Balance"), resultSet.getLong("SubscriptionID"),
-                        new ArrayList<Long>());
+                        resultSet.getLong("SubscriptionID"));
+                user.setBalance(resultSet.getDouble("Balance"));
+                user.setCardsId(new ArrayList<Long>());
             }
         } catch (SQLException e) {
             logger.info(e.toString());
@@ -61,11 +64,7 @@ public class UserRepository implements BaseRepository {
     @Override
     public void insert(Connection connection, IEntity entity) throws SQLException {
         User user = (User) entity;
-        boolean check = user.getSubscriptionID() != 0 ? true : false;
-
-        String sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\") VALUES (?, ?, ?, ?, ?, ?)";
-        if (check)
-            sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\") VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO \"User\"(\"Email\", \"Password\", \"FIO\", \"PassportID\", \"RoleID\", \"Balance\", \"SubscriptionID\") VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, user.getEmail());
@@ -74,9 +73,7 @@ public class UserRepository implements BaseRepository {
             preparedStatement.setLong(4, user.getPassportID());
             preparedStatement.setLong(5, user.getRoleID());
             preparedStatement.setDouble(6, user.getBalance());
-            if (check) {
-                preparedStatement.setLong(7, user.getSubscriptionID());
-            }
+            preparedStatement.setString(7, "null");
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
