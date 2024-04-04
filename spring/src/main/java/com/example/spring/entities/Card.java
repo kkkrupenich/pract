@@ -22,7 +22,7 @@ public class Card {
     private Long id;
 
     @Column(name = "\"Number\"")
-    private String number;
+    private Long number;
 
     @Column(name = "\"ExpirationDate\"")
     private Date expirationDate;
@@ -45,11 +45,11 @@ public class Card {
         this.id = id;
     }
 
-    public String getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 

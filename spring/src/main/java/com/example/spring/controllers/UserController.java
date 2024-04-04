@@ -25,6 +25,11 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping("user/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+
     @PreAuthorize("hasAuthority('Admin')")
     @DeleteMapping("deleteuser/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {

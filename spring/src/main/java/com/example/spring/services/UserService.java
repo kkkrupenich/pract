@@ -35,7 +35,15 @@ public class UserService {
 
     public User addUser(RegisterModel registerModel) {
         Role role = roleRepository.findByName("User").get();
-        Passport passport = passportRepository.findById(registerModel.getPassportId()).get();
+
+        Passport passport = new Passport();
+        passport.setSerialNumber(registerModel.getSerialNumber());
+        passport.setIdentificationNumber(registerModel.getIdentificationNumber());
+        passport.setRegistration(registerModel.getRegistration());
+        passport.setIssueDate(registerModel.getIssueDate());
+        passport.setExpirationDate(registerModel.getExpirationDate());
+        passportRepository.save(passport);
+
         User user = new User();
         user.setEmail(registerModel.getEmail());
         user.setPassword(registerModel.getPassword());
@@ -43,6 +51,8 @@ public class UserService {
         user.setRole(role);
         user.setPassport(passport);
         user.setBalance(0);
+        user.setPassport(passport);
+
         return userRepository.save(user);
     }
 

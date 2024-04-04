@@ -27,13 +27,12 @@ public class PassportController {
         return passportService.getPassports();
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("addpassport")
     public Passport addPassport(@RequestBody Passport passport) {
         return passportService.addPassport(passport);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('Admin')")
     @DeleteMapping("deletepassport/{id}")
     public ResponseEntity<String> deletePasspors(@PathVariable("id") Long id) {
         passportService.deletePasspors(id);

@@ -30,14 +30,17 @@ public class CardController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("addcard")
-    public Card addCard(@RequestBody Card card, Principal principal) {
-        return cardService.addCard(card, principal.getName());
+    public ResponseEntity<String> addCard(@RequestBody Card card, Principal principal) {
+        Card check = cardService.addCard(card, principal.getName());
+        if (check == null) 
+            return ResponseEntity.ok("This card was already added");
+        else
+            return ResponseEntity.ok("Card added");
     }
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("deletecard/{id}")
-    public ResponseEntity<String> deleteCard(@PathVariable("id") Long id) {
-        cardService.deleteCard(id);
-        return ResponseEntity.ok("Todo deleted successfully!.");
+    public ResponseEntity<String> deleteCard(@PathVariable("id") Long id, Principal principal) {
+        return cardService.deleteCard(id, principal.getName());
     }
 }

@@ -1,11 +1,56 @@
 package com.example.spring.models;
 
+import java.sql.Date;
+
 public class RegisterModel {
     private String email;
     private String fio;
     private String password;
-    private String passwordConfirm;
-    private Long passportId;
+    private String serialNumber;
+    private String identificationNumber;
+    private String registration;
+    private Date issueDate;
+    private Date expirationDate;
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public String getIdentificationNumber() {
+        return identificationNumber;
+    }
+
+    public void setIdentificationNumber(String identificationNumber) {
+        this.identificationNumber = identificationNumber;
+    }
+
+    public String getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(String registration) {
+        this.registration = registration;
+    }
+
+    public Date getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(Date issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
     public String getFio() {
         return fio;
@@ -29,21 +74,5 @@ public class RegisterModel {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
-    public Long getPassportId() {
-        return passportId;
-    }
-
-    public void setPassportId(Long passportId) {
-        this.passportId = passportId;
     }
 }

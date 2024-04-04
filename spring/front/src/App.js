@@ -1,41 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Signin from './routes/signin';
+import Signup from './routes/signup';
+import Root from './routes/root';
+import NotFound from './routes/notFound';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import { AppContext } from "../src/contexts/contexts";
+import Cards from './routes/cards';
+import Games from './routes/games';
+import Profile from './routes/profile';
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
+import { getUserById } from './services/userService';
+import axios from 'axios';
+import AddCard from './routes/addCard';
 
-function App() {
-  const [roles, setRoles] = useState([]);
-  const [loading, setLoading] = useState(false);
+export default function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(['app']);
+  const [isAuthenticated, setIsAuthenticated] = useState(cookies.token !== undefined);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
-    setLoading(true);
+    if (cookies.userId !== undefined) {
+      getUserById(cookies.userId).then(user => setUser(user));
+    }
+  }, [isAuthenticated]);
 
-    fetch('roles')
-      .then(response => response.json())
-      .then(data => {
-        setRoles(data);
-        setLoading(false);
-      })
-  }, []);
+  const state = {
+    setCookie,
+    removeCookie,
+    isAuthenticated,
+    setIsAuthenticated,
+    user
+  };
 
-  if (loading) {
-    return <p>Loading...</p>;
+  const authenticatedRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: <Root/>,
+      errorElement: <NotFound />,
+      children: [
+        {
+          path: "/cards",
+          element: <Cards />
+        },
+        {
+          path: "/addcard",
+          element: <AddCard />
+        },
+        {
+          path: "/games",
+          element: <Games />
+        },
+        {
+          path: "/profile",
+          element: <Profile />
+        }
+      ]
+    }
+  ]);
+
+  const anonymousRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: <Root/>,
+      errorElement: <NotFound />,
+      children: [
+        {
+          path: "/signup",
+          element: <Signup />
+        },
+        {
+          path: "/signin",
+          element: <Signin />
+        }
+      ]
+    }
+  ]);
+
+  if (cookies.token !== undefined) {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.token;
+  }
+  else {
+    axios.defaults.headers.common['Authorization'] = '';
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div className="App-intro">
-          <h2>Roles List</h2>
-          {roles.map(role =>
-            <div key={role.id}>
-              {role.name}
-            </div>
-          )}
-        </div>
-      </header>
-    </div>
+    <AppContext.Provider value={state}>
+      <RouterProvider router={isAuthenticated ? authenticatedRouter : anonymousRouter} />
+    </AppContext.Provider>
   );
 }
-
-export default App;
