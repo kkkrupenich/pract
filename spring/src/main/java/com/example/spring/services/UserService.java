@@ -33,6 +33,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User updateUser(Long id, String password) {
+        User existedUser = userRepository.findById(id).get();
+        existedUser.setPassword(password);
+        return userRepository.save(existedUser);
+    }
+
     public User addUser(RegisterModel registerModel) {
         Role role = roleRepository.findByName("User").get();
 

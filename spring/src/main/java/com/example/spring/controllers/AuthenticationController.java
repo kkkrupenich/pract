@@ -21,8 +21,13 @@ public class AuthenticationController {
     @PostMapping("signin")
     public ResponseEntity<Object> signIn(@RequestBody LoginModel loginModel) {
         var authenticationResponse = authenticationService.signIn(loginModel.getEmail(), loginModel.getPassword());
+        if (authenticationResponse != null) {
+            return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
+        }
+        else {
+            return ResponseEntity.ok("no user with creds");
+        }
 
-        return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
     }
 
     @PostMapping("signup")

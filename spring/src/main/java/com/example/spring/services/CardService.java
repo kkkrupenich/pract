@@ -47,6 +47,12 @@ public class CardService {
         Card existedCard = getCardByNumber(card.getNumber());
 
         if (existedCard != null) {
+
+            if (card.getId() == existedCard.getId()) {
+                card.setUsers(existedCard.getUsers());
+                return cardRepository.save(card);
+            }
+
             List<User> users = existedCard.getUsers();
             if (users == null) {
                 users = new ArrayList<>();

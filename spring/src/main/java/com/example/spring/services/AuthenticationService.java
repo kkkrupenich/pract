@@ -17,9 +17,14 @@ public class AuthenticationService {
 
     public AuthenticationResponse signIn(String email, String passwordHash) {
         var user = userService.getUserByEmailAndPassword(email, passwordHash);
-        var token = jwtUtil.generateToken(user.getId());
+        if (user != null) {
+            var token = jwtUtil.generateToken(user.getId());
+            return new AuthenticationResponse(user.getId(), token);
+        }
+        else {
+            return null;
+        }
 
-        return new AuthenticationResponse(user.getId(), token);
     }
 
     public AuthenticationResponse signUp(RegisterModel registerModel) {
