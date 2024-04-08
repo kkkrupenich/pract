@@ -23,4 +23,4 @@ https://sonarcloud.io/project/overview?id=kkkrupenich_pract
 
 ## 5. React - Frontend
 * Ориентировочное время выполнения: 12 часов.
-* Фактическое время выполнения: 12 часа.
+* Фактическое время выполнения: 12 часов.

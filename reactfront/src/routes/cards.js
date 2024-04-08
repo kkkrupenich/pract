@@ -21,7 +21,7 @@ export default function Cards() {
 
   if (loading) {
     return (
-      <div className="spinner-border" role="status">
+      <div className="spinner-border">
         <span className="visually-hidden">Loading...</span>
       </div>
     );
@@ -44,15 +44,16 @@ export default function Cards() {
               <tr key={card.id}>
                 <th scope="row">{card.id}</th>
                 <td className="number">{card.number}</td>
-                <td className="buttons"><div className="btn-group" role="group" aria-label="Basic example">
-                  <button type="button" className="btn btn-danger" onClick={() => deleteCardOnClick(card.id)}>
-                    Delete card
-                  </button>
+                <td className="buttons">
+                  <div className="btn-group" aria-label="Basic example">
+                    <button type="button" className="btn btn-danger" onClick={() => deleteCardOnClick(card.id)}>
+                      Delete card
+                    </button>
 
-                  <button type="button" className="btn btn-info" onClick={() => updateCardOnClick(card.id)}>
-                    Update card
-                  </button>
-                </div></td>
+                    <button type="button" className="btn btn-info" onClick={() => updateCardOnClick(card.id)}>
+                      Update card
+                    </button>
+                  </div></td>
               </tr>
             )}
           </tbody>
