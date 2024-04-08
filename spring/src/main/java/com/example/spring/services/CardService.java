@@ -48,7 +48,7 @@ public class CardService {
 
         if (existedCard != null) {
 
-            if (card.getId() == existedCard.getId()) {
+            if (card.getId().equals(existedCard.getId())) {
                 card.setUsers(existedCard.getUsers());
                 return cardRepository.save(card);
             }
@@ -75,23 +75,8 @@ public class CardService {
             user.setCards(cards);
 
             return cardRepository.save(existedCard);
-        } else {
-            List<User> users = card.getUsers();
-            if (users == null) {
-                users = new ArrayList<>();
-            }
-            users.add(user);
-            card.setUsers(users);
-
-            List<Card> cards = user.getCards();
-            if (cards == null) {
-                cards = new ArrayList<>();
-            }
-            cards.add(card);
-            user.setCards(cards);
-
-            return cardRepository.save(card);
         }
+        return cardRepository.save(card);
     }
 
     public ResponseEntity<String> deleteCard(Long id, String userId) {
