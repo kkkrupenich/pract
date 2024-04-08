@@ -20,8 +20,7 @@ public class AuthenticationService {
         if (user != null) {
             var token = jwtUtil.generateToken(user.getId());
             return new AuthenticationResponse(user.getId(), token);
-        }
-        else {
+        } else {
             return null;
         }
 

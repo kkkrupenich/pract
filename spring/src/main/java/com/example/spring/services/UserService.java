@@ -3,7 +3,6 @@ package com.example.spring.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +17,15 @@ import com.example.spring.repositories.UserRepository;
 @Service
 public class UserService {
 
-    @Autowired
     UserRepository userRepository;
-    @Autowired
     RoleRepository roleRepository;
-    @Autowired
     PassportRepository passportRepository;
 
-    public UserService() {
-        // Constructor is empty because any specific initialization logic is not needed
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+            PassportRepository passportRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passportRepository = passportRepository;
     }
 
     public List<User> getUsers() {

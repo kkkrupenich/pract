@@ -2,7 +2,6 @@ package com.example.spring.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +13,12 @@ import com.example.spring.repositories.UserRepository;
 @Service
 public class ReviewService {
 
-    @Autowired
     ReviewRepository reviewRepository;
-    @Autowired
     UserRepository userRepository;
 
-    public ReviewService() {
-        // Constructor is empty because any specific initialization logic is not needed
+    public ReviewService(ReviewRepository reviewRepository, UserRepository userRepository) {
+        this.reviewRepository = reviewRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Review> getReviews() {

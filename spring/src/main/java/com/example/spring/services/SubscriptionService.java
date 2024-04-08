@@ -2,7 +2,6 @@ package com.example.spring.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +11,10 @@ import com.example.spring.repositories.SubscriptionRepository;
 @Service
 public class SubscriptionService {
 
-    @Autowired
     SubscriptionRepository subscriptionRepository;
 
-    public SubscriptionService() {
-        // Constructor is empty because any specific initialization logic is not needed
+    public SubscriptionService(SubscriptionRepository subscriptionRepository) {
+        this.subscriptionRepository = subscriptionRepository;
     }
 
     public List<Subscription> getSubscriptions() {

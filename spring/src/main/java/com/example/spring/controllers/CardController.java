@@ -3,7 +3,6 @@ package com.example.spring.controllers;
 import java.security.Principal;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,8 +18,11 @@ import com.example.spring.services.CardService;
 @RestController
 public class CardController {
 
-    @Autowired
     CardService cardService;
+    
+    public CardController(CardService cardService) {
+        this.cardService = cardService;
+    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("cards")

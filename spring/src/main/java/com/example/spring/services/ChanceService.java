@@ -2,7 +2,6 @@ package com.example.spring.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +11,10 @@ import com.example.spring.repositories.ChanceRepository;
 @Service
 public class ChanceService {
 
-    @Autowired
     ChanceRepository chanceRepository;
 
-    public ChanceService() {
-        // Constructor is empty because any specific initialization logic is not needed
+    public ChanceService(ChanceRepository chanceRepository) {
+        this.chanceRepository = chanceRepository;
     }
 
     public List<Chance> getChance() {

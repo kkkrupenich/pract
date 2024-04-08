@@ -2,7 +2,6 @@ package com.example.spring.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +17,11 @@ import com.example.spring.services.PassportService;
 @RestController
 public class PassportController {
     
-    @Autowired
     PassportService passportService;
+
+    public PassportController(PassportService passportService) {
+        this.passportService = passportService;
+    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("passports")

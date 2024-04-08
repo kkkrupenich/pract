@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +15,12 @@ import com.example.spring.repositories.UserRepository;
 @Service
 public class CardService {
 
-    @Autowired
     CardRepository cardRepository;
-    @Autowired
     UserRepository userRepository;
 
-    public CardService() {
-        // Constructor is empty because any specific initialization logic is not needed
+    public CardService(CardRepository cardRepository, UserRepository userRepository) {
+        this.cardRepository = cardRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Card> getCards() {
@@ -56,8 +54,7 @@ public class CardService {
             List<User> users = existedCard.getUsers();
             if (users == null) {
                 users = new ArrayList<>();
-            }
-            else {
+            } else {
                 for (Card test : user.getCards()) {
                     if (test.equals(existedCard)) {
                         return null;
@@ -82,12 +79,11 @@ public class CardService {
     public ResponseEntity<String> deleteCard(Long id, String userId) {
         Card card = cardRepository.findById(id).get();
         List<User> users = card.getUsers();
-        
+
         if (users.size() == 1) {
             cardRepository.deleteById(id);
             return ResponseEntity.ok("Card deleted");
-        }
-        else {
+        } else {
             User user = userRepository.findById(Long.parseLong(userId)).get();
             users.remove(user);
             card.setUsers(users);
@@ -100,7 +96,6 @@ public class CardService {
 
             return ResponseEntity.ok("Card from this user deleted");
         }
-
 
     }
 }
