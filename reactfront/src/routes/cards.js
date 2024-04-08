@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import { deleteCard, updateCard } from '../services/cardService';
+import { deleteCard } from '../services/cardService';
 
 
 export default function Cards() {
@@ -77,10 +77,7 @@ export default function Cards() {
   }
 
   async function updateCardOnClick(id) {
-    updateCard(id, 312312321, "2025-02-10", "da", 321)
-      .then(cardResponse => {
-        console.log(cardResponse);
-      });
+    navigate('/updatecard', { state: { id: id } });
   }
 
 }

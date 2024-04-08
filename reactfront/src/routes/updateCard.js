@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { addCard } from "../services/cardService";
+import { useNavigate, useLocation } from "react-router-dom";
+import { updateCard } from "../services/cardService";
 
 
-export default function AddCard() {
+export default function UpdateCard() {
     const [number, setNumber] = useState('');
+    const {state} = useLocation();
+    const {id} = state;
     const [expirationDate, setExpirationDate] = useState('');
     const [holdersName, setHoldersName] = useState('');
     const [cvv, setCvv] = useState('');
@@ -30,18 +32,15 @@ export default function AddCard() {
                 <input placeholder="CVV" type="text" id="inputCVV" onChange={(e) => setCvv(e.target.value)} />
             </div>
             <div className="button">
-                <button type="button" className="btn btn-success" onClick={addCardOnClick}>
+                <button type="button" className="btn btn-success" onClick={updateCardOnClick}>
                     Add card
                 </button>
             </div>
         </div>
     );
 
-    async function addCardOnClick() {
-        addCard(number, expirationDate, holdersName, cvv)
-            .then(cardResponse => {
-                console.log(cardResponse);
-            });
+    async function updateCardOnClick() {
+        updateCard(id, number, expirationDate, holdersName, cvv)
         navigate('/cards');
     }
 }

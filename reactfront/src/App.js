@@ -1,6 +1,6 @@
 import './App.css';
-import Signin from './routes/signin';
-import Signup from './routes/signup';
+import Signin from './routes/signIn';
+import Signup from './routes/signUp';
 import Root from './routes/root';
 import NotFound from './routes/notFound';
 import {
@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { getUserById } from './services/userService';
 import axios from 'axios';
 import AddCard from './routes/addCard';
+import UpdateCard from './routes/updateCard';
 
 
 export default function App() {
@@ -49,6 +50,10 @@ export default function App() {
         {
           path: "/addcard",
           element: <AddCard />
+        },
+        {
+          path: "/updatecard",
+          element: <UpdateCard />
         },
         {
           path: "/profile",

@@ -11,19 +11,21 @@ export default function Profile() {
     const navigate = useNavigate();
 
     return (
-        <section>
-            <input
-                placeholder="Password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button onClick={updatePasswordOnClick}>
-                Update
-            </button>
-            <button onClick={logoutButtonOnClick}>
-                Logout
-            </button>
-        </section>
+        <div className="form-login">
+            <div className="form-group row">
+                <input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <div className="button">
+                <button className="btn btn-success" onClick={updatePasswordOnClick}>
+                    Update
+                </button>
+            </div>
+            <div className="button">
+                <button className="btn btn-primary" onClick={logoutButtonOnClick}>
+                    Logout
+                </button>
+            </div>
+        </div>
     );
 
     async function logoutButtonOnClick() {
@@ -33,7 +35,7 @@ export default function Profile() {
         axios.defaults.headers.common['Authorization'] = '';
         navigate('/');
     }
-    
+
     async function updatePasswordOnClick() {
         updatePassword(password);
         navigate('/');
