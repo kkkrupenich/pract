@@ -1,6 +1,6 @@
 import './App.css';
-import Signin from './routes/signIn';
-import Signup from './routes/signUp';
+import Signin from './routes/signin';
+import Signup from './routes/signup';
 import Root from './routes/root';
 import NotFound from './routes/notFound';
 import {
