@@ -24,7 +24,7 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"UserID\"")
-    @JsonIgnoreProperties(value = { "reviews", "handler", "hibernateLazyInitializer" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "reviews", "cards", "role", "passport", "handler", "hibernateLazyInitializer" }, allowSetters = true)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)

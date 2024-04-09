@@ -1,7 +1,9 @@
 package com.example.spring.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +23,14 @@ public class GameService {
         return gameRepository.findAll();
     }
 
-    public Game getGameById(Long id) {
-        return gameRepository.findById(id).get();
+    public Game getGameById(Long id) throws NotFoundException {
+        Optional<Game> game = gameRepository.findById(id);
+        if (game.isPresent()) {
+            return game.get();
+        }
+        else {
+            throw new NotFoundException();
+        }
     }
 
     public Game addGame(Game game) {

@@ -1,13 +1,13 @@
 <div class="form-login">
     <div class="form-group row">
         <label for="inputEmail">Email</label>
-        <input placeholder="Email" type="email" id="inputEmail" required />
+        <input placeholder="Email" type="email" id="inputEmail" [(ngModel)]="email" required />
     </div>
     <div class="form-group row">
         <label for="inputPassword">Password</label>
-        <input placeholder="Password" type="password" id="inputPassword" required />
+        <input placeholder="Password" type="password" id="inputPassword" [(ngModel)]="password" required />
     </div>
     <div class="button">
-        <button class="btn btn-primary" onClick={signInClick}>Sign in</button>
+        <button class="btn btn-primary" (click)="signIn()">Sign in</button>
     </div>
 </div>

@@ -1,1 +1,17 @@
-<router-outlet />
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+        <a class="navbar-brand" routerLink="/">Home</a>
+        <div class="navbar-nav">
+            <ng-container *ngIf="authorizationService.getIsAuthenticated(); else notAuthenticated">
+                <a class="nav-link active" routerLink="/games">Games</a>
+                <a class="nav-link active" routerLink="/reviews">Reviews</a>
+                <a class="nav-link active" routerLink="/profile">Profile</a>
+            </ng-container>
+            <ng-template #notAuthenticated>
+                <a class="nav-link active" routerLink="/signup">Register</a>
+                <a class="nav-link active" routerLink="/signin">Login</a>
+            </ng-template>
+        </div>
+    </div>
+</nav>
+<router-outlet></router-outlet>

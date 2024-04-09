@@ -1,0 +1,37 @@
+<div class="App-intro">
+    <h2>Cards List</h2>
+    <div class="outerTable">
+        <table class="table" aria-describedby="outerTable">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">GameID</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (review of reviews; track review) {
+                <tr>
+                    <th scope="row">{{review.id}}</th>
+                    <td class="gameid">{{review.game.id}}</td>
+                    <td class="message">{{review.message}}</td>
+                    <td class="rating">{{review.rating}}</td>
+                    <td class="buttons">
+                        <div class="btn-group" aria-label="Basic example">
+                            <button type="button" class="btn btn-danger" (click)="deleteReview(review.id)">
+                                Delete review
+                            </button>
+
+                            <button type="button" class="btn btn-info" (click)="updateReview(review.id, review.game.id)">
+                                Update review
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

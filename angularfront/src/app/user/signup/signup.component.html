@@ -3,42 +3,42 @@
         <div class="customCol">
             <div class="form-group row">
                 <label for="inputEmail">Email</label>
-                <input placeholder="Email" type="email" id="inputEmail" />
+                <input placeholder="Email" type="email" id="inputEmail" [(ngModel)]="email" />
             </div>
             <div class="form-group row">
                 <label for="inputPassword">Password</label>
-                <input placeholder="Password" type="password" id="inputPassword" />
+                <input placeholder="Password" type="password" id="inputPassword" [(ngModel)]="password" />
             </div>
             <div class="form-group row">
                 <label for="inputFio">FIO</label>
-                <input placeholder="FIO" type="text" id="inputFio"/>
+                <input placeholder="FIO" type="text" id="inputFio" [(ngModel)]="fio" />
             </div>
             <div class="form-group row">
                 <label for="inputSerial">Serial number</label>
-                <input placeholder="Serial number" type="text" id="inputSerial" />
+                <input placeholder="Serial number" type="text" id="inputSerial" [(ngModel)]="serialNumber" />
             </div>
         </div>
         <div class="customCol">
             <div class="form-group row">
                 <label for="inputIdentification">Identifiaction number</label>
-                <input placeholder="Identifiaction number" type="text" id="inputIdentification" />
+                <input placeholder="Identifiaction number" type="text" id="inputIdentification" [(ngModel)]="identificationNumber" />
             </div>
             <div class="form-group row">
                 <label for="inputRegistration">Registration</label>
-                <input placeholder="Registration" type="text" id="inputRegistration" />
+                <input placeholder="Registration" type="text" id="inputRegistration" [(ngModel)]="registration" />
             </div>
             <div class="form-group row">
                 <label for="inputIssue">Issue date</label>
-                <input placeholder="Issue date" type="date" id="inputIssue" />
+                <input placeholder="Issue date" type="date" id="inputIssue" [(ngModel)]="issueDate" />
             </div>
             <div class="form-group row">
                 <label for="inputExp">Expiration date</label>
-                <input placeholder="Expiration date" type="date" id="inputExp" />
+                <input placeholder="Expiration date" type="date" id="inputExp" [(ngModel)]="expirationDate" />
             </div>
         </div>
     </div>
 
     <div class="button">
-        <button class="btn btn-primary" onClick={signUpClick}>Register</button>
+        <button class="btn btn-primary" (click)="signUp()">Register</button>
     </div>
 </div>

@@ -1,0 +1,27 @@
+<div class="App-intro">
+    <h2>Cards List</h2>
+    <div class="outerTable">
+        <table class="table" aria-describedby="outerTable">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (game of games; track game) {
+                <tr>
+                    <th scope="row">{{game.id}}</th>
+                    <td class="number">{{game.name}}</td>
+                    <td class="buttons">
+                        <button type="button" class="btn btn-info" (click)="addReview(game.id)">
+                            Add review
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

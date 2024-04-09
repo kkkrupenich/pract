@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardDeleteComponent } from './card-delete.component';
+import { ReviewReadComponent } from './review-read.component';
 
-describe('CardDeleteComponent', () => {
-  let component: CardDeleteComponent;
-  let fixture: ComponentFixture<CardDeleteComponent>;
+describe('ReviewReadComponent', () => {
+  let component: ReviewReadComponent;
+  let fixture: ComponentFixture<ReviewReadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CardDeleteComponent]
+      imports: [ReviewReadComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CardDeleteComponent);
+    fixture = TestBed.createComponent(ReviewReadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

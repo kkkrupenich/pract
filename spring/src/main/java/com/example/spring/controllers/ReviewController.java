@@ -30,9 +30,15 @@ public class ReviewController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("addreview")
-    public Review addReview(@RequestBody Review review, Principal principal) {
-        return reviewService.addReview(review, principal.getName());
+    @GetMapping("myreviews")
+    public List<Review> getReviewsByUserId(Principal principal) {
+        return reviewService.getReviewsByUserId(principal.getName());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("addreview/{id}")
+    public Review addReview(@RequestBody Review review, @PathVariable Long id, Principal principal) {
+        return reviewService.addReview(review, id, principal.getName());
     }
 
     @PreAuthorize("isAuthenticated()")

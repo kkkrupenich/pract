@@ -1,11 +1,11 @@
-import { Card } from "./card";
-import { Passport } from "./passport";
-
 export class User {
-    id!: bigint;
+    id!: number;
     email!: string;
     fio!: string;
-    passport!: Passport;
+    serialNumber!: string;
+    identificationNumber!: string;
+    registration!: string;
+    issueDate!: Date;
+    expirationDate!: Date;
     balance!: number;
-    cards: Card[] = [];
 }

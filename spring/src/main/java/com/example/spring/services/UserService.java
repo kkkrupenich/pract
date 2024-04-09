@@ -33,13 +33,20 @@ public class UserService {
     }
 
     public User updateUser(Long id, String password) {
-        User existedUser = userRepository.findById(id).get();
-        existedUser.setPassword(password);
-        return userRepository.save(existedUser);
+        Optional<User> existedUser = userRepository.findById(id);
+        if (existedUser.isPresent()) {
+            User user = existedUser.get();
+            user.setPassword(password);
+            return userRepository.save(user);
+        }
+        return null;
     }
 
     public User addUser(RegisterModel registerModel) {
-        Role role = roleRepository.findByName("User").get();
+        Optional<Role> existedRole = roleRepository.findByName("User");
+        if (existedRole.isEmpty()) {
+            return null;
+        }
 
         Passport passport = new Passport();
         passport.setSerialNumber(registerModel.getSerialNumber());
@@ -53,7 +60,7 @@ public class UserService {
         user.setEmail(registerModel.getEmail());
         user.setPassword(registerModel.getPassword());
         user.setFio(registerModel.getFio());
-        user.setRole(role);
+        user.setRole(existedRole.get());
         user.setPassport(passport);
         user.setBalance(0);
         user.setPassport(passport);
@@ -62,7 +69,9 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+        Optional<User> existedUser = userRepository.findById(id);
+        
+        return existedUser.isPresent() ? existedUser.get() : null;
     }
 
     public User getUserByEmail(String email) {
