@@ -3,6 +3,7 @@ package com.example.spring.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -32,20 +33,19 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User updateUser(Long id, String password) {
+    public User updateUser(Long id, String password) throws NotFoundException {
         Optional<User> existedUser = userRepository.findById(id);
-        if (existedUser.isPresent()) {
-            User user = existedUser.get();
-            user.setPassword(password);
-            return userRepository.save(user);
-        }
-        return null;
+        if (existedUser.isEmpty())
+            throw new NotFoundException();
+        User user = existedUser.get();
+        user.setPassword(password);
+        return userRepository.save(user);
     }
 
-    public User addUser(RegisterModel registerModel) {
+    public User addUser(RegisterModel registerModel) throws NotFoundException {
         Optional<Role> existedRole = roleRepository.findByName("User");
         if (existedRole.isEmpty()) {
-            return null;
+            throw new NotFoundException();
         }
 
         Passport passport = new Passport();
@@ -63,33 +63,29 @@ public class UserService {
         user.setRole(existedRole.get());
         user.setPassport(passport);
         user.setBalance(0);
-        user.setPassport(passport);
 
         return userRepository.save(user);
     }
 
-    public User getUserById(Long id) {
+    public User getUserById(Long id) throws NotFoundException {
         Optional<User> existedUser = userRepository.findById(id);
-        
-        return existedUser.isPresent() ? existedUser.get() : null;
+        if (existedUser.isEmpty())
+            throw new NotFoundException();
+        return existedUser.get();
     }
 
-    public User getUserByEmail(String email) {
+    public User getUserByEmail(String email) throws NotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            return null;
-        }
+        if (user.isEmpty())
+            throw new NotFoundException();
+        return user.get();
     }
 
-    public User getUserByEmailAndPassword(String email, String password) {
+    public User getUserByEmailAndPassword(String email, String password) throws NotFoundException {
         Optional<User> user = userRepository.findByEmailAndPassword(email, password);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            return null;
-        }
+        if (user.isEmpty())
+            throw new NotFoundException();
+        return user.get();
     }
 
     public ResponseEntity<String> deleteUser(Long id) {

@@ -17,7 +17,7 @@ import com.example.spring.services.ChanceService;
 @RestController
 public class ChanceController {
 
-    ChanceService chanceService;
+    private final ChanceService chanceService;
 
     public ChanceController(ChanceService chanceService) {
         this.chanceService = chanceService;

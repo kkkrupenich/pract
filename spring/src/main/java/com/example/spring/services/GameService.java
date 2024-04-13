@@ -25,12 +25,9 @@ public class GameService {
 
     public Game getGameById(Long id) throws NotFoundException {
         Optional<Game> game = gameRepository.findById(id);
-        if (game.isPresent()) {
-            return game.get();
-        }
-        else {
+        if (game.isEmpty())
             throw new NotFoundException();
-        }
+        return game.get();
     }
 
     public Game addGame(Game game) {

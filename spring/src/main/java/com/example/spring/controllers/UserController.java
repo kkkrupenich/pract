@@ -3,6 +3,7 @@ package com.example.spring.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +20,7 @@ import com.example.spring.services.UserService;
 @RestController
 public class UserController {
 
-    UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -32,12 +33,12 @@ public class UserController {
     }
 
     @GetMapping("user/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public User getUserById(@PathVariable Long id) throws NotFoundException {
         return userService.getUserById(id);
     }
 
     @PostMapping("updateuser")
-    public User updateUser(@RequestBody LoginModel loginModel, Principal principal) {
+    public User updateUser(@RequestBody LoginModel loginModel, Principal principal) throws NotFoundException {
         return userService.updateUser(Long.parseLong(principal.getName()), loginModel.getPassword());
     }
 

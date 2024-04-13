@@ -1,7 +1,9 @@
 package com.example.spring.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +23,12 @@ public class SubscriptionService {
         return subscriptionRepository.findAll();
     }
 
-    public Subscription getSubscriptionById(Long id) {
-        return subscriptionRepository.findById(id).get();
+    public Subscription getSubscriptionById(Long id) throws NotFoundException {
+        Optional<Subscription> subscription = subscriptionRepository.findById(id);
+        if (subscription.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return subscription.get();
     }
 
     public Subscription addSubscription(Subscription subscription) {

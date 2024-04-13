@@ -17,7 +17,7 @@ import com.example.spring.services.PassportService;
 @RestController
 public class PassportController {
     
-    PassportService passportService;
+    private final PassportService passportService;
 
     public PassportController(PassportService passportService) {
         this.passportService = passportService;

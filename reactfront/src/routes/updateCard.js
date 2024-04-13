@@ -40,7 +40,7 @@ export default function UpdateCard() {
     );
 
     async function updateCardOnClick() {
-        updateCard(id, number, expirationDate, holdersName, cvv)
+        await updateCard(id, number, expirationDate, holdersName, cvv)
         navigate('/cards');
     }
 }

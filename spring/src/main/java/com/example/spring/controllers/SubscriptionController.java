@@ -17,7 +17,7 @@ import com.example.spring.services.SubscriptionService;
 @RestController
 public class SubscriptionController {
 
-    SubscriptionService subscriptionService;
+    private final SubscriptionService subscriptionService;
 
     public SubscriptionController(SubscriptionService subscriptionService) {
         this.subscriptionService = subscriptionService;

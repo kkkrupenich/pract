@@ -1,7 +1,9 @@
 package com.example.spring.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +23,12 @@ public class RoleService {
         return roleRepository.findAll();
     }
 
-    public Role getRoleById(Long id) {
-        return roleRepository.findById(id).get();
+    public Role getRoleById(Long id) throws NotFoundException {
+        Optional<Role> role = roleRepository.findById(id);
+        if (role.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return role.get();
     }
 
     public Role addRole(Role role) {

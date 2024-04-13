@@ -3,6 +3,7 @@ package com.example.spring.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +19,7 @@ import com.example.spring.services.CardService;
 @RestController
 public class CardController {
 
-    CardService cardService;
+    private final CardService cardService;
     
     public CardController(CardService cardService) {
         this.cardService = cardService;
@@ -32,7 +33,7 @@ public class CardController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("addcard")
-    public ResponseEntity<String> addCard(@RequestBody Card card, Principal principal) {
+    public ResponseEntity<String> addCard(@RequestBody Card card, Principal principal) throws NotFoundException {
         Card check = cardService.addCard(card, principal.getName());
         if (check == null) 
             return ResponseEntity.ok("This card was already added");
@@ -42,7 +43,7 @@ public class CardController {
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("deletecard/{id}")
-    public ResponseEntity<String> deleteCard(@PathVariable("id") Long id, Principal principal) {
+    public ResponseEntity<String> deleteCard(@PathVariable("id") Long id, Principal principal) throws NotFoundException {
         return cardService.deleteCard(id, principal.getName());
     }
 }

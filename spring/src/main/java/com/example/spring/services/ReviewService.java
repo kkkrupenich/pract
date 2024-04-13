@@ -1,7 +1,9 @@
 package com.example.spring.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -30,19 +32,31 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
-    public Review getReviewById(Long id) {
-        return reviewRepository.findById(id).get();
+    public Review getReviewById(Long id) throws NotFoundException {
+        Optional<Review> review = reviewRepository.findById(id);
+        if (review.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return review.get();
     }
 
     public List<Review> getReviewsByUserId(String id) {
         return reviewRepository.findByUserId(Long.parseLong(id));
     }
 
-    public Review addReview(Review review, Long gameId, String id) {
-        User user = userRepository.findById(Long.parseLong(id)).get();
-        review.setUser(user);
-        Game game = gameRepository.findById(gameId).get();
-        review.setGame(game);
+    public Review addReview(Review review, Long gameId, String id) throws NotFoundException {
+        Optional<User> user = userRepository.findById(Long.parseLong(id));
+        if (user.isEmpty()) {
+            throw new NotFoundException();
+        }
+        review.setUser(user.get());
+
+        Optional<Game> game = gameRepository.findById(gameId);
+        if (game.isEmpty()) {
+            throw new NotFoundException();
+        }
+        review.setGame(game.get());
+
         return reviewRepository.save(review);
     }
 

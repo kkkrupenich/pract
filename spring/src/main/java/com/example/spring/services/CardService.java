@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -27,21 +28,28 @@ public class CardService {
         return cardRepository.findAll();
     }
 
-    public Card getCardById(Long id) {
-        return cardRepository.findById(id).get();
+    public Card getCardById(Long id) throws NotFoundException {
+        Optional<Card> card = cardRepository.findById(id);
+        if (card.isEmpty()) {
+            throw new NotFoundException();
+        } 
+        return card.get();
     }
 
-    public Card getCardByNumber(Long number) {
+    public Card getCardByNumber(Long number) throws NotFoundException {
         Optional<Card> card = cardRepository.findByNumber(number);
-        if (card.isPresent()) {
-            return card.get();
-        } else {
-            return null;
+        if (card.isEmpty()) {
+            throw new NotFoundException();
         }
+        return card.get();
     }
 
-    public Card addCard(Card card, String id) {
-        User user = userRepository.findById(Long.parseLong(id)).get();
+    public Card addCard(Card card, String id) throws NotFoundException {
+        Optional<User> userCheck = userRepository.findById(Long.parseLong(id));
+        if (userCheck.isEmpty()) {
+            throw new NotFoundException();
+        }
+        User user = userCheck.get();
         Card existedCard = getCardByNumber(card.getNumber());
 
         if (existedCard != null) {
@@ -52,15 +60,14 @@ public class CardService {
             }
 
             List<User> users = existedCard.getUsers();
-            if (users == null) {
-                users = new ArrayList<>();
-            } else {
+            if (users != null) {
                 for (Card test : user.getCards()) {
                     if (test.equals(existedCard)) {
                         return null;
                     }
                 }
             }
+            users = new ArrayList<>();
             users.add(user);
             existedCard.setUsers(users);
 
@@ -76,15 +83,23 @@ public class CardService {
         return cardRepository.save(card);
     }
 
-    public ResponseEntity<String> deleteCard(Long id, String userId) {
-        Card card = cardRepository.findById(id).get();
+    public ResponseEntity<String> deleteCard(Long id, String userId) throws NotFoundException {
+        Optional<Card> cardCheck = cardRepository.findById(id);
+        if (cardCheck.isEmpty()) {
+            throw new NotFoundException();
+        }
+        Card card = cardCheck.get();
         List<User> users = card.getUsers();
 
         if (users.size() == 1) {
             cardRepository.deleteById(id);
             return ResponseEntity.ok("Card deleted");
         } else {
-            User user = userRepository.findById(Long.parseLong(userId)).get();
+            Optional<User> userCheck = userRepository.findById(Long.parseLong(userId));
+            if (userCheck.isEmpty()) {
+                throw new NotFoundException();
+            }
+            User user = userCheck.get();
             users.remove(user);
             card.setUsers(users);
             cardRepository.save(card);

@@ -1,7 +1,9 @@
 package com.example.spring.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +23,12 @@ public class ChanceService {
         return chanceRepository.findAll();
     }
 
-    public Chance getChanceById(Long id) {
-        return chanceRepository.findById(id).get();
+    public Chance getChanceById(Long id) throws NotFoundException {
+        Optional<Chance> chance = chanceRepository.findById(id);
+        if (chance.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return chance.get();
     }
 
     public Chance addChance(Chance chance) {

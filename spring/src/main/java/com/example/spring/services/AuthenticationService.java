@@ -3,6 +3,8 @@ package com.example.spring.services;
 import com.example.spring.security.JwtUtil;
 import com.example.spring.models.RegisterModel;
 import com.example.spring.responses.AuthenticationResponse;
+
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +17,7 @@ public class AuthenticationService {
         this.jwtUtil = jwtUtil;
     }
 
-    public AuthenticationResponse signIn(String email, String passwordHash) {
+    public AuthenticationResponse signIn(String email, String passwordHash) throws NotFoundException {
         var user = userService.getUserByEmailAndPassword(email, passwordHash);
         if (user != null) {
             var token = jwtUtil.generateToken(user.getId());
@@ -26,7 +28,7 @@ public class AuthenticationService {
 
     }
 
-    public AuthenticationResponse signUp(RegisterModel registerModel) {
+    public AuthenticationResponse signUp(RegisterModel registerModel) throws NotFoundException {
         var user = userService.addUser(registerModel);
         var token = jwtUtil.generateToken(user.getId());
 

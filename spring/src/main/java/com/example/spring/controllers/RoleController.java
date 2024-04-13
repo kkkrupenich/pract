@@ -17,7 +17,7 @@ import com.example.spring.services.RoleService;
 @RestController
 public class RoleController {
 
-	RoleService roleService;
+	private final RoleService roleService;
 
 	public RoleController(RoleService roleService) {
 		this.roleService = roleService;

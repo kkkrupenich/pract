@@ -18,7 +18,7 @@ import com.example.spring.services.GameService;
 @RestController
 public class GameController {
 
-    GameService gameService;
+    private final GameService gameService;
 
     public GameController(GameService gameService) {
         this.gameService = gameService;

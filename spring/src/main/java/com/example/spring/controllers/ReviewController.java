@@ -3,6 +3,7 @@ package com.example.spring.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +19,7 @@ import com.example.spring.services.ReviewService;
 @RestController
 public class ReviewController {
 
-    ReviewService reviewService;
+    private final ReviewService reviewService;
 
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
@@ -37,7 +38,7 @@ public class ReviewController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("addreview/{id}")
-    public Review addReview(@RequestBody Review review, @PathVariable Long id, Principal principal) {
+    public Review addReview(@RequestBody Review review, @PathVariable Long id, Principal principal) throws NotFoundException {
         return reviewService.addReview(review, id, principal.getName());
     }
 
