@@ -35,6 +35,11 @@ public class SubscriptionService {
         return subscriptionRepository.save(subscription);
     }
 
+    public Subscription updateSubscription(Long id, Subscription subscription) {
+        subscription.setId(id);
+        return subscriptionRepository.save(subscription);
+    }
+
     public ResponseEntity<String> deleteSubscription(Long id) {
         subscriptionRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");

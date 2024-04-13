@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ import com.example.spring.services.CardService;
 public class CardController {
 
     private final CardService cardService;
-    
+
     public CardController(CardService cardService) {
         this.cardService = cardService;
     }
@@ -35,15 +36,20 @@ public class CardController {
     @PostMapping("addcard")
     public ResponseEntity<String> addCard(@RequestBody Card card, Principal principal) throws NotFoundException {
         Card check = cardService.addCard(card, principal.getName());
-        if (check == null) 
-            return ResponseEntity.ok("This card was already added");
-        else
-            return ResponseEntity.ok("Card added");
+        return check == null ? ResponseEntity.ok("This card was already added")
+                : ResponseEntity.ok("Card added");
     }
 
     @PreAuthorize("isAuthenticated()")
+    @PutMapping("updatecard/{id}")
+    public Card updateCard(@PathVariable("id") Long id, @RequestBody Card card) {
+        return cardService.updateCard(id, card);
+    }
+    
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("deletecard/{id}")
-    public ResponseEntity<String> deleteCard(@PathVariable("id") Long id, Principal principal) throws NotFoundException {
+    public ResponseEntity<String> deleteCard(@PathVariable("id") Long id, Principal principal)
+            throws NotFoundException {
         return cardService.deleteCard(id, principal.getName());
     }
 }

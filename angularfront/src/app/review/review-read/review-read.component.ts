@@ -20,9 +20,9 @@ export class ReviewReadComponent {
     console.log(this.reviews);
   }
 
-  updateReview(id: number, gameId: number) {
+  updateReview(id: number) {
     console.log("update" + id);
-    this._router.navigate(['/updatereview', {id: id, gameId: gameId}]);
+    this._router.navigate(['/updatereview', {id: id}]);
   }
 
   async deleteReview(id: number) {

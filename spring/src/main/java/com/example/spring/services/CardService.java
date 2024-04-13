@@ -83,6 +83,11 @@ public class CardService {
         return cardRepository.save(card);
     }
 
+    public Card updateCard(Long id, Card card) {
+        card.setId(id);
+        return cardRepository.save(card);
+    }
+
     public ResponseEntity<String> deleteCard(Long id, String userId) throws NotFoundException {
         Optional<Card> cardCheck = cardRepository.findById(id);
         if (cardCheck.isEmpty()) {

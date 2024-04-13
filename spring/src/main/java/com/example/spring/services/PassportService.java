@@ -35,6 +35,11 @@ public class PassportService {
         return passportRepository.save(passport);
     }
 
+    public Passport updatePassport(Long id, Passport passport) {
+        passport.setId(id);
+        return passportRepository.save(passport);
+    }
+
     public ResponseEntity<String> deletePasspors(Long id) {
         passportRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");

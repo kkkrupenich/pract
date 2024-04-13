@@ -34,6 +34,11 @@ public class GameService {
         return gameRepository.save(game);
     }
 
+    public Game updateGame(Long id, Game game) {
+        game.setId(id);
+        return gameRepository.save(game);
+    }
+
     public ResponseEntity<String> deleteGame(Long id) {
         gameRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");

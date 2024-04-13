@@ -60,6 +60,20 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
+    public Review updateReview(Long id, Review review) throws NotFoundException {
+        Optional<Review> reviewOptional = reviewRepository.findById(id);
+        if (reviewOptional.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        Review oldReview = reviewOptional.get();
+        review.setId(id);
+        review.setUser(oldReview.getUser());
+        review.setGame(oldReview.getGame());
+        
+        return reviewRepository.save(review);
+    }
+
     public ResponseEntity<String> deleteReview(Long id) {
         reviewRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");

@@ -14,10 +14,9 @@ export async function addCard(number, expirationDate, holdersName, cvv) {
 }
 
 export async function updateCard(id, number, expirationDate, holdersName, cvv) {
-    let response = await axios.post(
-        "/addcard",
+    let response = await axios.put(
+        "/updatecard/" + id,
         {
-            "id": id,
             "number": number,
             "expirationDate": expirationDate,
             "holdersName": holdersName,

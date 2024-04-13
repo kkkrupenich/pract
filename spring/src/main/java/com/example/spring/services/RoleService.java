@@ -35,6 +35,11 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
+    public Role updateRole(Long id, Role role) {
+        role.setId(id);
+        return roleRepository.save(role);
+    }
+
     public ResponseEntity<String> deleteRole(Long id) {
         roleRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");

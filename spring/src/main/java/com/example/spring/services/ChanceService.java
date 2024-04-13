@@ -35,6 +35,11 @@ public class ChanceService {
         return chanceRepository.save(chance);
     }
 
+    public Chance updateChance(Long id, Chance chance) {
+        chance.setId(id);
+        return chanceRepository.save(chance);
+    }
+
     public ResponseEntity<String> deleteChance(Long id) {
         chanceRepository.deleteById(id);
         return ResponseEntity.ok("Todo deleted successfully!.");

@@ -24,10 +24,9 @@ export class ReviewUpdateComponent {
     this.review.date = new Date(mm + '-' + dd + '-' + yyyy);
 
     let id = this._route.snapshot.paramMap.get('id');
-    let gameId = this._route.snapshot.paramMap.get('gameId');
-    if (id !== null && gameId !== null) {
+    if (id !== null) {
       this.review.id = +id;
-      this.reviewService.updateReview(this.review, +gameId);
+      this.reviewService.updateReview(this.review);
       window.location.href = '/reviews';
     } else {
       alert('Bad review');

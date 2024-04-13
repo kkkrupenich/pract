@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,6 +39,12 @@ public class GameController {
     @PostMapping("addgame")
     public Game addGame(@RequestBody Game game) {
         return gameService.addGame(game);
+    }
+
+    @PreAuthorize("hasAuthority('Admin')")
+    @PutMapping("updategame/{id}")
+    public Game updateGame(@PathVariable("id") Long id, @RequestBody Game game) {
+        return gameService.updateGame(id, game);
     }
 
     @PreAuthorize("hasAuthority('Admin')")

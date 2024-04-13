@@ -36,16 +36,16 @@ export class ReviewService {
     return response.data
   }
 
-  async updateReview(review: Review, gameId: number) {
-    let response = await axios.post(
-      "http://localhost:8080/addreview/" + gameId,
+  async updateReview(review: Review) {
+    let response = await axios.put(
+      "http://localhost:8080/updatereview/" + review.id,
       {
-          "id": review.id,
           "message": review.message,
           "rating": review.rating,
           "date": review.date
       }
     )
+    console.log(response.data);
     return response.data
   }
 

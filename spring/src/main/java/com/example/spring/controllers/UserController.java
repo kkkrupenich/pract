@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("user/{id}")
-    public User getUserById(@PathVariable Long id) throws NotFoundException {
+    public User getUserById(@PathVariable("id") Long id) throws NotFoundException {
         return userService.getUserById(id);
     }
 

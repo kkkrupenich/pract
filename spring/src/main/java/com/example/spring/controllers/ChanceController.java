@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +34,12 @@ public class ChanceController {
     @PostMapping("addchance")
     public Chance addChance(@RequestBody Chance chance) {
         return chanceService.addChance(chance);
+    }
+
+    @PreAuthorize("hasAuthority('Admin')")
+    @PutMapping("updatechance/{id}")
+    public Chance updateChance(@PathVariable("id") Long id, @RequestBody Chance chance) {
+        return chanceService.updateChance(id, chance);
     }
 
     @PreAuthorize("hasAuthority('Admin')")
